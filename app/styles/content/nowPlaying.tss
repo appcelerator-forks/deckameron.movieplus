@@ -1,0 +1,20 @@
+
+"#nowPlaying": {
+	width: Ti.Platform.displayCaps.platformWidth,
+	height: "30%",
+	backgroundColor: "transparent",
+	layout: "horizontal",
+	bottom: 0,
+	zIndex: 999
+}
+
+".posterRow": {
+	width: 65,
+	height: 92
+}
+
+".poster": {
+	width: 57, 
+	height: 84,
+	top: 0
+}

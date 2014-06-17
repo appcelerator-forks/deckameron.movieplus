@@ -1,5 +1,58 @@
 <Alloy>
-	<Window class="container">
-		<Button id="label" onClick="doClick">Hello, World</Button>
-	</Window>
+
+    <NavigationWindow id="root">
+     	<Window id="main">
+
+			<LeftNavButton id="nav">
+				<Button id="hamburger"></Button>
+			</LeftNavButton>
+			
+			<ScrollView id="menu">
+                <View class="menuItem" id="menuSciFi"><Label>Sci-Fi</Label></View>
+                <View class="menuItem" id="menuAnimation"><Label>Animation</Label></View>
+                <View class="menuItem" id="menuComedy"><Label>Comedy</Label></View>
+                <View class="menuItem" id="menuAdvanture"><Label>Advanture</Label></View>
+            </ScrollView>
+            
+            <View id="content"></View>
+
+        </Window>   
+    </NavigationWindow>
+    
+    <Window id="sidebar">
+        <TableView id="leftTable">
+        	
+            <TableViewRow class="leftTableRow">
+            	<ImageView class="leftTableIcon" image="/movie.png" />
+            	<Label class="leftTableLabel">My Watchlist</Label>
+            </TableViewRow>
+            
+            <TableViewRow class="leftTableRow">
+            	<ImageView id="leftTableIconHot" class="leftTableIcon" image="/news.png" />
+            	<Label class="leftTableLabel">Whats' hot</Label>
+            </TableViewRow>
+            
+            <TableViewRow class="leftTableRow">
+            	<ImageView id="leftTableIconGenre" class="leftTableIcon" image="/movie.png" />
+            	<Label class="leftTableLabel">Movie Genre</Label>
+            </TableViewRow>
+            
+            <TableViewRow class="leftTableRow">
+            	<ImageView id="leftTableIconNews" class="leftTableIcon" image="/news.png" />
+            	<Label class="leftTableLabel">Movies News</Label>
+            </TableViewRow>
+
+            <TableViewRow class="leftTableRow">
+            	<ImageView id="leftTableIconTicket" class="leftTableIcon" image="/ticket.png" />
+            	<Label class="leftTableLabel">Buy tickets</Label>
+            </TableViewRow>
+
+            <TableViewRow class="leftTableRow">
+            	<ImageView id="leftTableIconSetting" class="leftTableIcon" image="/setting.png" />
+            	<Label class="leftTableLabel">Settings</Label>
+            </TableViewRow>
+            
+        </TableView>    
+    </Window>
+	
 </Alloy>

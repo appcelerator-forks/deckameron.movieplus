@@ -1,8 +1,8 @@
 eclipse.preferences.version=1
 iosLaunchConfigurationAttributes/ATTR_MINIFY=true
-iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=movieplus
-iosLaunchConfigurationAttributes/appid=cn.logicdesign.movieplus
-iosLaunchConfigurationAttributes/certificate=Brice ZHOU (CAGL8ENMQ4)
+iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=Movie Plus
+iosLaunchConfigurationAttributes/appid=cn.logicdesign.MoviePlus
+iosLaunchConfigurationAttributes/certificate=Do Lin (B6WJQ876DC)
 iosLaunchConfigurationAttributes/keychain=
 iosLaunchConfigurationAttributes/sdk_version=7.1
-iosLaunchConfigurationAttributes/uuid=36432603-91BC-4FF5-8645-7C1B1B642290
+iosLaunchConfigurationAttributes/uuid=011E45DD-94B7-4FA1-9729-F4624B449D03

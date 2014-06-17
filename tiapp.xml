@@ -47,7 +47,12 @@
         </splash>
         <theme>default</theme>
     </mobileweb>
-    <modules/>
+    <modules>
+        <module platform="iphone">bencoding.blur</module>
+        <module platform="iphone">com.animecyc.animator</module>
+        <module platform="iphone">com.microsoft.mobileservice</module>
+        <module platform="iphone">dk.napp.slidemenu</module>
+    </modules>
     <deployment-targets>
         <target device="android">false</target>
         <target device="blackberry">false</target>
