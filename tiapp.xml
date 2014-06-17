@@ -3,11 +3,11 @@
     <id>cn.logicdesign.movieplus</id>
     <name>movieplus</name>
     <version>1.0</version>
-    <publisher>bricezhou</publisher>
+    <publisher>Logicdesign Co., Ltd</publisher>
     <url>http://logicdesign.cn</url>
     <description>not specified</description>
     <copyright>2014 by bricezhou</copyright>
-    <icon>appicon.png</icon>
+    <icon>Icon.png</icon>
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
     <analytics>true</analytics>
