@@ -249,7 +249,6 @@ function Controller() {
         height: "100%",
         top: "100%"
     });
-<<<<<<< HEAD
     theMovieDb.movies.getNowPlaying({}, function(data) {
         var d = JSON.parse(data);
         _.each(d.results, function(result) {
@@ -292,10 +291,6 @@ function Controller() {
     }, function(err) {
         alert(err);
     });
-=======
-    $.content.add(imgView);
-    $.content.add(posters.getView());
->>>>>>> FETCH_HEAD
     winAnimation.trans3d.setM34(-0.001);
     winAnimation.animation.curve = Ti.UI.ANIMATION_CURVE_EASE_OUT;
     winAnimation.animation.duration = 300;
