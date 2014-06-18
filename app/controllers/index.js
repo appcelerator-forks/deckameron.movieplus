@@ -27,6 +27,7 @@ var tempWin = Ti.UI.createWindow({
     top: "100%"
 });
 
+<<<<<<< HEAD
 // fetching movie information from tmdb.
 theMovieDb.movies.getNowPlaying(
 {}, function( data ) {
@@ -76,6 +77,10 @@ theMovieDb.movies.getNowPlaying(
 }, function( err ) {
 	alert( err );
 });
+=======
+$.content.add(imgView);
+$.content.add( posters.getView() );
+>>>>>>> FETCH_HEAD
 
 winAnimation.trans3d.setM34( 1.0 / -1000 );
 winAnimation.animation.curve = Ti.UI.ANIMATION_CURVE_EASE_OUT;
