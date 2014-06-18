@@ -227,7 +227,6 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     var NappSlideMenu = require("dk.napp.slidemenu");
-    var Azure = require("com.microsoft.mobileService");
     var Blur = require("bencoding.blur");
     var Animator = require("com.animecyc.animator");
     var winAnimation = {
@@ -258,10 +257,6 @@ function Controller() {
         width: "100%",
         height: "100%",
         top: "100%"
-    });
-    Azure.init();
-    Azure.refreshDataOnSuccess(function(msg) {
-        Ti.API.info(msg);
     });
     $.content.add(imgView);
     $.content.add(posters.getView());
