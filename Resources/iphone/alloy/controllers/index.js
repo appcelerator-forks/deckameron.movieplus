@@ -39,11 +39,11 @@ function Controller() {
         id: "menuSciFi"
     });
     $.__views.menu.add($.__views.menuSciFi);
-    $.__views.__alloyId0 = Ti.UI.createLabel({
+    $.__views.__alloyId13 = Ti.UI.createLabel({
         text: "Sci-Fi",
-        id: "__alloyId0"
+        id: "__alloyId13"
     });
-    $.__views.menuSciFi.add($.__views.__alloyId0);
+    $.__views.menuSciFi.add($.__views.__alloyId13);
     $.__views.menuAnimation = Ti.UI.createView({
         height: 40,
         backgroundColor: "#fff",
@@ -51,11 +51,11 @@ function Controller() {
         id: "menuAnimation"
     });
     $.__views.menu.add($.__views.menuAnimation);
-    $.__views.__alloyId1 = Ti.UI.createLabel({
+    $.__views.__alloyId14 = Ti.UI.createLabel({
         text: "Animation",
-        id: "__alloyId1"
+        id: "__alloyId14"
     });
-    $.__views.menuAnimation.add($.__views.__alloyId1);
+    $.__views.menuAnimation.add($.__views.__alloyId14);
     $.__views.menuComedy = Ti.UI.createView({
         height: 40,
         backgroundColor: "#fff",
@@ -63,11 +63,11 @@ function Controller() {
         id: "menuComedy"
     });
     $.__views.menu.add($.__views.menuComedy);
-    $.__views.__alloyId2 = Ti.UI.createLabel({
+    $.__views.__alloyId15 = Ti.UI.createLabel({
         text: "Comedy",
-        id: "__alloyId2"
+        id: "__alloyId15"
     });
-    $.__views.menuComedy.add($.__views.__alloyId2);
+    $.__views.menuComedy.add($.__views.__alloyId15);
     $.__views.menuAdvanture = Ti.UI.createView({
         height: 40,
         backgroundColor: "#fff",
@@ -75,13 +75,13 @@ function Controller() {
         id: "menuAdvanture"
     });
     $.__views.menu.add($.__views.menuAdvanture);
-    $.__views.__alloyId3 = Ti.UI.createLabel({
+    $.__views.__alloyId16 = Ti.UI.createLabel({
         text: "Advanture",
-        id: "__alloyId3"
+        id: "__alloyId16"
     });
-    $.__views.menuAdvanture.add($.__views.__alloyId3);
+    $.__views.menuAdvanture.add($.__views.__alloyId16);
     $.__views.content = Ti.UI.createView({
-        backgroundColor: "yellow",
+        backgroundColor: "white",
         id: "content"
     });
     $.__views.main.add($.__views.content);
@@ -95,121 +95,121 @@ function Controller() {
         id: "sidebar"
     });
     $.__views.sidebar && $.addTopLevelView($.__views.sidebar);
-    var __alloyId4 = [];
-    $.__views.__alloyId5 = Ti.UI.createTableViewRow({
+    var __alloyId17 = [];
+    $.__views.__alloyId18 = Ti.UI.createTableViewRow({
         selectedBackgroundColor: "#F5A623",
-        id: "__alloyId5"
+        id: "__alloyId18"
     });
-    __alloyId4.push($.__views.__alloyId5);
-    $.__views.__alloyId6 = Ti.UI.createImageView({
+    __alloyId17.push($.__views.__alloyId18);
+    $.__views.__alloyId19 = Ti.UI.createImageView({
         left: 20,
         width: 22,
         image: "/movie.png",
-        id: "__alloyId6"
+        id: "__alloyId19"
     });
-    $.__views.__alloyId5.add($.__views.__alloyId6);
-    $.__views.__alloyId7 = Ti.UI.createLabel({
+    $.__views.__alloyId18.add($.__views.__alloyId19);
+    $.__views.__alloyId20 = Ti.UI.createLabel({
         color: "white",
         left: 65,
         text: "My Watchlist",
-        id: "__alloyId7"
+        id: "__alloyId20"
     });
-    $.__views.__alloyId5.add($.__views.__alloyId7);
-    $.__views.__alloyId8 = Ti.UI.createTableViewRow({
+    $.__views.__alloyId18.add($.__views.__alloyId20);
+    $.__views.__alloyId21 = Ti.UI.createTableViewRow({
         selectedBackgroundColor: "#F5A623",
-        id: "__alloyId8"
+        id: "__alloyId21"
     });
-    __alloyId4.push($.__views.__alloyId8);
+    __alloyId17.push($.__views.__alloyId21);
     $.__views.leftTableIconHot = Ti.UI.createImageView({
         left: 20,
         width: 22,
         id: "leftTableIconHot",
         image: "/news.png"
     });
-    $.__views.__alloyId8.add($.__views.leftTableIconHot);
-    $.__views.__alloyId9 = Ti.UI.createLabel({
+    $.__views.__alloyId21.add($.__views.leftTableIconHot);
+    $.__views.__alloyId22 = Ti.UI.createLabel({
         color: "white",
         left: 65,
         text: "Whats' hot",
-        id: "__alloyId9"
+        id: "__alloyId22"
     });
-    $.__views.__alloyId8.add($.__views.__alloyId9);
-    $.__views.__alloyId10 = Ti.UI.createTableViewRow({
+    $.__views.__alloyId21.add($.__views.__alloyId22);
+    $.__views.__alloyId23 = Ti.UI.createTableViewRow({
         selectedBackgroundColor: "#F5A623",
-        id: "__alloyId10"
+        id: "__alloyId23"
     });
-    __alloyId4.push($.__views.__alloyId10);
+    __alloyId17.push($.__views.__alloyId23);
     $.__views.leftTableIconGenre = Ti.UI.createImageView({
         left: 20,
         width: 22,
         id: "leftTableIconGenre",
         image: "/movie.png"
     });
-    $.__views.__alloyId10.add($.__views.leftTableIconGenre);
-    $.__views.__alloyId11 = Ti.UI.createLabel({
+    $.__views.__alloyId23.add($.__views.leftTableIconGenre);
+    $.__views.__alloyId24 = Ti.UI.createLabel({
         color: "white",
         left: 65,
         text: "Movie Genre",
-        id: "__alloyId11"
+        id: "__alloyId24"
     });
-    $.__views.__alloyId10.add($.__views.__alloyId11);
-    $.__views.__alloyId12 = Ti.UI.createTableViewRow({
+    $.__views.__alloyId23.add($.__views.__alloyId24);
+    $.__views.__alloyId25 = Ti.UI.createTableViewRow({
         selectedBackgroundColor: "#F5A623",
-        id: "__alloyId12"
+        id: "__alloyId25"
     });
-    __alloyId4.push($.__views.__alloyId12);
+    __alloyId17.push($.__views.__alloyId25);
     $.__views.leftTableIconNews = Ti.UI.createImageView({
         left: 20,
         width: 16,
         id: "leftTableIconNews",
         image: "/news.png"
     });
-    $.__views.__alloyId12.add($.__views.leftTableIconNews);
-    $.__views.__alloyId13 = Ti.UI.createLabel({
+    $.__views.__alloyId25.add($.__views.leftTableIconNews);
+    $.__views.__alloyId26 = Ti.UI.createLabel({
         color: "white",
         left: 65,
         text: "Movies News",
-        id: "__alloyId13"
+        id: "__alloyId26"
     });
-    $.__views.__alloyId12.add($.__views.__alloyId13);
-    $.__views.__alloyId14 = Ti.UI.createTableViewRow({
+    $.__views.__alloyId25.add($.__views.__alloyId26);
+    $.__views.__alloyId27 = Ti.UI.createTableViewRow({
         selectedBackgroundColor: "#F5A623",
-        id: "__alloyId14"
+        id: "__alloyId27"
     });
-    __alloyId4.push($.__views.__alloyId14);
+    __alloyId17.push($.__views.__alloyId27);
     $.__views.leftTableIconTicket = Ti.UI.createImageView({
         left: 20,
         width: 22,
         id: "leftTableIconTicket",
         image: "/ticket.png"
     });
-    $.__views.__alloyId14.add($.__views.leftTableIconTicket);
-    $.__views.__alloyId15 = Ti.UI.createLabel({
+    $.__views.__alloyId27.add($.__views.leftTableIconTicket);
+    $.__views.__alloyId28 = Ti.UI.createLabel({
         color: "white",
         left: 65,
         text: "Buy tickets",
-        id: "__alloyId15"
+        id: "__alloyId28"
     });
-    $.__views.__alloyId14.add($.__views.__alloyId15);
-    $.__views.__alloyId16 = Ti.UI.createTableViewRow({
+    $.__views.__alloyId27.add($.__views.__alloyId28);
+    $.__views.__alloyId29 = Ti.UI.createTableViewRow({
         selectedBackgroundColor: "#F5A623",
-        id: "__alloyId16"
+        id: "__alloyId29"
     });
-    __alloyId4.push($.__views.__alloyId16);
+    __alloyId17.push($.__views.__alloyId29);
     $.__views.leftTableIconSetting = Ti.UI.createImageView({
         left: 20,
         width: 22,
         id: "leftTableIconSetting",
         image: "/setting.png"
     });
-    $.__views.__alloyId16.add($.__views.leftTableIconSetting);
-    $.__views.__alloyId17 = Ti.UI.createLabel({
+    $.__views.__alloyId29.add($.__views.leftTableIconSetting);
+    $.__views.__alloyId30 = Ti.UI.createLabel({
         color: "white",
         left: 65,
         text: "Settings",
-        id: "__alloyId17"
+        id: "__alloyId30"
     });
-    $.__views.__alloyId16.add($.__views.__alloyId17);
+    $.__views.__alloyId29.add($.__views.__alloyId30);
     $.__views.leftTable = Ti.UI.createTableView({
         backgroundColor: "#2e2e2e",
         opacity: 0,
@@ -220,31 +220,22 @@ function Controller() {
         top: 30,
         height: 417,
         separatorColor: "#979797",
-        data: __alloyId4,
+        data: __alloyId17,
         id: "leftTable"
     });
     $.__views.sidebar.add($.__views.leftTable);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var NappSlideMenu = require("dk.napp.slidemenu");
-    var Azure = require("com.microsoft.mobileService");
     var Blur = require("bencoding.blur");
     var Animator = require("com.animecyc.animator");
+    var theMovieDb = require("themoviedb");
     var winAnimation = {
         trans3d: Ti.UI.create3DMatrix(),
         animation: Ti.UI.createAnimation()
     };
-    var posters = Alloy.createController("content/nowPlaying");
-    var imgView = Blur.createGPUBlurImageView({
-        height: "150%",
-        width: "150%",
-        top: 10,
-        image: "/poster5.png",
-        blur: {
-            type: Blur.GAUSSIAN_BLUR,
-            radiusInPixels: 4
-        }
-    });
+    var nowPlaying = Alloy.createController("content/nowPlaying");
+    var detail = Alloy.createController("detail");
     var window = NappSlideMenu.createSlideMenuWindow({
         centerWindow: $.root,
         leftWindow: $.sidebar,
@@ -253,18 +244,53 @@ function Controller() {
         parallaxAmount: .3
     });
     var tempWin = Ti.UI.createWindow({
-        backgroundColor: "black",
-        opacity: .95,
+        backgroundColor: "#4A4A4A",
         width: "100%",
         height: "100%",
         top: "100%"
     });
-    Azure.init();
-    Azure.refreshDataOnSuccess(function(msg) {
-        Ti.API.info(msg);
+    theMovieDb.movies.getNowPlaying({}, function(data) {
+        var d = JSON.parse(data);
+        _.each(d.results, function(result) {
+            nowPlaying.paths.push(theMovieDb.common.getImage({
+                size: "w500",
+                file: result.poster_path
+            }));
+        });
+        var imgView = Blur.createGPUBlurImageView({
+            height: "150%",
+            width: "150%",
+            top: 10,
+            image: nowPlaying.paths[0],
+            blur: {
+                type: Blur.GAUSSIAN_BLUR,
+                radiusInPixels: 6
+            }
+        });
+        var posterView = Ti.UI.createImageView({
+            width: 170,
+            height: 255,
+            image: nowPlaying.paths[0],
+            borderWidth: 1,
+            borderColor: "#C7C7C7",
+            shadow: {
+                shadowOpacity: 1,
+                shadowRadius: 9,
+                shadowOffset: {
+                    x: 0,
+                    y: 0
+                }
+            },
+            top: 100
+        });
+        imgView.add(posterView);
+        $.content.add(imgView);
+        nowPlaying.addPosters(nowPlaying.paths);
+        nowPlaying.layoutCircleView();
+        $.content.add(nowPlaying.getView());
+    }, function(err) {
+        alert(err);
     });
-    $.content.add(imgView);
-    $.content.add(posters.getView());
     winAnimation.trans3d.setM34(-0.001);
     winAnimation.animation.curve = Ti.UI.ANIMATION_CURVE_EASE_OUT;
     winAnimation.animation.duration = 300;
@@ -272,6 +298,7 @@ function Controller() {
         window.toggleLeftView();
     });
     $.main.addEventListener("click", function() {
+        tempWin.add(detail.getView());
         tempWin.open();
         setTimeout(function() {
             Animator.animate(tempWin, {

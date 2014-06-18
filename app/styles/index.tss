@@ -99,5 +99,5 @@
 }
 
 "#content": {
-	backgroundColor: "yellow"
+	backgroundColor: "white"
 }

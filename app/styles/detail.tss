@@ -1,0 +1,5 @@
+
+".container" : {
+	backgroundColor: "#4A4A4A",
+	separatorColor: "#979797"
+}
