@@ -16,36 +16,6 @@
 	height: 14
 }
 
-"#menu": {
-	top: 0,
-	width: Ti.Platform.displayCaps.platformWidth,
-	height: 40,
-	layout: 'horizontal',
-	backgroundColor: "#fff",
-	zIndex: 999
-}
-
-".menuItem": {
-	height: 40,
-	backgroundColor: "#fff"
-}
-
-"#menuSciFi": {
-	width: 100
-}
-
-"#menuAnimation": {
-	width: 160
-}
-
-"#menuComedy": {
-	width: 120
-}
-
-"#menuAdvanture": {
-	width: 160
-}
-
 // sidebar styles
 
 "#sidebar": {
@@ -96,8 +66,4 @@
 ".leftTableLabel": {
 	color: "white",
 	left: 65
-}
-
-"#content": {
-	backgroundColor: "white"
 }

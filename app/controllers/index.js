@@ -1,8 +1,6 @@
 
 var NappSlideMenu = require('dk.napp.slidemenu');
-var Blur = require('bencoding.blur');
 var Animator = require('com.animecyc.animator');
-var theMovieDb = require('themoviedb');
 // var Fade = require('alloy/animation');
 var winAnimation = {
 	trans3d: Ti.UI.create3DMatrix(),
@@ -10,7 +8,6 @@ var winAnimation = {
 };
 var nowPlaying = Alloy.createController('content/nowPlaying');
 var detail = Alloy.createController('detail');
-
 
 var window = NappSlideMenu.createSlideMenuWindow({
 	centerWindow: $.root,
@@ -27,59 +24,12 @@ var tempWin = Ti.UI.createWindow({
     top: "100%"
 });
 
-// fetching movie information from tmdb.
-theMovieDb.movies.getNowPlaying(
-{}, function( data ) {
-	var d = JSON.parse( data );
-	_.each(d.results, function( result ) {
-		nowPlaying.paths.push( theMovieDb.common.getImage({ 
-			size: 'w500',
-			file: result.poster_path
-		}) );
-	});
-
-	var imgView = Blur.createGPUBlurImageView({
-    	height: "150%",
-    	width: "150%",
-    	top: 10,
-    	image: nowPlaying.paths[0],
-    	blur: {
-        	type: Blur.GAUSSIAN_BLUR, 
-        	radiusInPixels: 6 
-    	}       
-	});
-	
-	var posterView = Ti.UI.createImageView({
-		width: 170,
-		height: 255,
-		image: nowPlaying.paths[0],
-		borderWidth: 1,
-		borderColor: "#C7C7C7",
-		shadow: {
-			shadowOpacity: 1,
-            shadowRadius: 9,
-            shadowOffset: {
-            	x: 0,
-                y: 0
-            }
-		},
-		top: 100
-	});
-	
-	imgView.add( posterView );
-
-	$.content.add( imgView );
-	nowPlaying.addPosters( nowPlaying.paths );
-	nowPlaying.layoutCircleView();
-	$.content.add( nowPlaying.getView() );
-
-}, function( err ) {
-	alert( err );
-});
-
 winAnimation.trans3d.setM34( 1.0 / -1000 );
 winAnimation.animation.curve = Ti.UI.ANIMATION_CURVE_EASE_OUT;
 winAnimation.animation.duration = 300;
+
+nowPlaying.initialize();
+$.main.add( nowPlaying.getView() );
 
 $.hamburger.addEventListener('click', function() {
 	window.toggleLeftView();

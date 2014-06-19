@@ -7,15 +7,6 @@
 				<Button id="hamburger"></Button>
 			</LeftNavButton>
 			
-			<ScrollView id="menu">
-                <View class="menuItem" id="menuSciFi"><Label>Sci-Fi</Label></View>
-                <View class="menuItem" id="menuAnimation"><Label>Animation</Label></View>
-                <View class="menuItem" id="menuComedy"><Label>Comedy</Label></View>
-                <View class="menuItem" id="menuAdvanture"><Label>Advanture</Label></View>
-            </ScrollView>
-            
-            <View id="content"></View>
-
         </Window>   
     </NavigationWindow>
     
