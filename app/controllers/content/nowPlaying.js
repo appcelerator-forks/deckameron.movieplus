@@ -1,13 +1,12 @@
 var args = arguments[0] || {};
 
 var Blur = require('bencoding.blur');
-var theMovieDb = require('themoviedb');
+var nowPlayingCollection = Alloy.Collections.instance('nowPlaying');
 
 var radius = 320;
 var angle_gap = Math.PI / 16;
 var skipUnit = 65;
 var visibleRowsNum = 6;
-var paths = [];
 
 function toRadians( angle ) {
 	return angle * Math.PI / 180;
@@ -45,15 +44,15 @@ function layoutCircleView() {
 	}
 }
 
-function addPosters( posters ) {
-	if ( posters ) {
-		_.each(posters, function( path ) {
+function addPosters( collection ) {
+	if ( collection.length ) {
+		collection.each(function( model ) {
 			var postersRow = Ti.UI.createView({
 				width: 65,
 				height: 92
 			});
 			var poster = Ti.UI.createImageView({
-				image: path,
+				image: model.getPoster(),
 				width: 57,
 				height: 84,
 				shadow: {
@@ -74,33 +73,30 @@ function addPosters( posters ) {
 	}
 }
 
-function initialize( cb ) {
-	// fetching movie information from tmdb.
-	theMovieDb.movies.getNowPlaying(
-	{}, function( data ) {
-		var d = JSON.parse( data );
-		_.each(d.results, function( result ) {
-			paths.push( theMovieDb.common.getImage({ 
-				size: 'w500',
-				file: result.poster_path
-			}) );
-		});
+function initialize() {
+	nowPlayingCollection.getList(
+	1, /* page */
+	function() { /* success */
+		
+		var posterImage = this.at(0).getPoster();
 
 		var imgView = Blur.createGPUBlurImageView({
     		height: "150%",
     		width: "150%",
     		top: 10,
-    		image: paths[0],
+    		image: posterImage,
     		blur: {
         		type: Blur.GAUSSIAN_BLUR, 
         		radiusInPixels: 6 
-    		}       
+    		},
+    		zIndex: 50       
 		});
 	
 		var posterView = Ti.UI.createImageView({
+			id: 'poster',
 			width: 170,
 			height: 255,
-			image: paths[0],
+			image: posterImage,
 			borderWidth: 1,
 			borderColor: "#C7C7C7",
 			shadow: {
@@ -113,16 +109,19 @@ function initialize( cb ) {
 			},
 			top: 130
 		});
-	
-		imgView.add( posterView );
+		
 		$.content.add( imgView );
+		imgView.add( posterView );
 
-		addPosters( paths );
+		addPosters( this );
 		layoutCircleView();
 		
-	}, function( err ) {
+	}, function( err ) { /* error */
+		
 		alert( err );
+
 	});
+
 }
 
 $.postersWheel.addEventListener('scroll', function(e) {

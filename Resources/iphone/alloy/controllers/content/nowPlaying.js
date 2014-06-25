@@ -22,14 +22,14 @@ function Controller() {
             $.postersWheel.children[i] && ($.postersWheel.children[i].transform = $.postersWheel.children[i].trans.translate(0, 330 - y).rotate(toDegrees(angle) - 90));
         }
     }
-    function addPosters(posters) {
-        posters && _.each(posters, function(path) {
+    function addPosters(collection) {
+        collection.length && collection.each(function(model) {
             var postersRow = Ti.UI.createView({
                 width: 65,
                 height: 92
             });
             var poster = Ti.UI.createImageView({
-                image: path,
+                image: model.getPoster(),
                 width: 57,
                 height: 84,
                 shadow: {
@@ -47,28 +47,24 @@ function Controller() {
         });
     }
     function initialize() {
-        theMovieDb.movies.getNowPlaying({}, function(data) {
-            var d = JSON.parse(data);
-            _.each(d.results, function(result) {
-                paths.push(theMovieDb.common.getImage({
-                    size: "w500",
-                    file: result.poster_path
-                }));
-            });
+        nowPlayingCollection.getList(1, function() {
+            var posterImage = this.at(0).getPoster();
             var imgView = Blur.createGPUBlurImageView({
                 height: "150%",
                 width: "150%",
                 top: 10,
-                image: paths[0],
+                image: posterImage,
                 blur: {
                     type: Blur.GAUSSIAN_BLUR,
                     radiusInPixels: 6
-                }
+                },
+                zIndex: 50
             });
             var posterView = Ti.UI.createImageView({
+                id: "poster",
                 width: 170,
                 height: 255,
-                image: paths[0],
+                image: posterImage,
                 borderWidth: 1,
                 borderColor: "#C7C7C7",
                 shadow: {
@@ -81,9 +77,9 @@ function Controller() {
                 },
                 top: 130
             });
-            imgView.add(posterView);
             $.content.add(imgView);
-            addPosters(paths);
+            imgView.add(posterView);
+            addPosters(this);
             layoutCircleView();
         }, function(err) {
             alert(err);
@@ -179,12 +175,11 @@ function Controller() {
     _.extend($, $.__views);
     arguments[0] || {};
     var Blur = require("bencoding.blur");
-    var theMovieDb = require("themoviedb");
+    var nowPlayingCollection = Alloy.Collections.instance("nowPlaying");
     var radius = 320;
     var angle_gap = Math.PI / 16;
     var skipUnit = 65;
     var visibleRowsNum = 6;
-    var paths = [];
     $.postersWheel.addEventListener("scroll", function() {
         layoutCircleView();
     });

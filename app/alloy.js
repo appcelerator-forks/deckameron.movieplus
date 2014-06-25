@@ -10,4 +10,23 @@
 //
 // Alloy.Globals.someGlobalFunction = function(){};
 
+// Ti.BlurView require <ImageView> being created in advance.
 Ti.UI.createImageView();
+
+Alloy.Collections.instance('nowPlaying');
+var upComing = Alloy.Collections.instance('upComing');
+
+upComing.getList(
+1, /* page */
+function() { /* success callback */
+	
+	var poster_path = this.at(0).getBackdrop();
+	alert( poster_path );
+
+}, function( err ) { /* error callback */
+	
+	alert(err);
+	
+});
+
+
