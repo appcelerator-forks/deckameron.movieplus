@@ -6,7 +6,7 @@ var winAnimation = {
 	trans3d: Ti.UI.create3DMatrix(),
 	animation: Ti.UI.createAnimation()
 };
-var nowPlaying = Alloy.createController('content/nowPlaying');
+var nowPlaying = Alloy.createController('hot/nowPlaying');
 var detail = Alloy.createController('detail');
 
 var window = NappSlideMenu.createSlideMenuWindow({
@@ -43,7 +43,7 @@ $.main.addEventListener('click', function() {
     	Animator.animate(tempWin, {
         	duration: 430,
         	easing: Animator.EXP_OUT,
-        	top: 70
+        	top: 90
     	});
 	}, 200);
 
@@ -68,7 +68,7 @@ tempWin.addEventListener('click', function() {
     }, function() {
     	tempWin.close();
     });
-
+    
     winAnimation.animation.transform = winAnimation.trans3d.translate(0, 0, 0);
     Animator.animate(window, {
         duration: 430,

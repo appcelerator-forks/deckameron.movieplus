@@ -3,6 +3,9 @@ var theMovieDb = require('themoviedb');
 
 exports.definition = {
 	config: {
+		defaults: {
+			isShown: false
+		},
 		adapter: {
 			type: "properties",
 			collection_name: "nowPlaying"
@@ -30,7 +33,7 @@ exports.definition = {
 			getList: function( page, success, error ) {
 				
 				var self = this;
-				page = ( _.isNumber(page) && page >= 1 && page <= 1000 ) ? 1 : page;
+				page = ( _.isNumber(page) && page >= 1 && page <= 1000 ) ? page : 1;
 
                 // fetching list of now playing from tmdb.
                 theMovieDb.movies.getNowPlaying({
