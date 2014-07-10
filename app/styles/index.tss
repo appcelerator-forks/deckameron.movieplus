@@ -1,4 +1,8 @@
 
+"#root": {
+	clipMode: Titanium.UI.iOS.CLIP_MODE_DISABLED
+}
+
 // main window styles
 
 "#main": {

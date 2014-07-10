@@ -23,6 +23,7 @@ function Controller() {
     });
     $.__views.main.leftNavButton = $.__views.hamburger;
     $.__views.root = Ti.UI.iOS.createNavigationWindow({
+        clipMode: Titanium.UI.iOS.CLIP_MODE_DISABLED,
         window: $.__views.main,
         id: "root"
     });
@@ -32,121 +33,121 @@ function Controller() {
         id: "sidebar"
     });
     $.__views.sidebar && $.addTopLevelView($.__views.sidebar);
-    var __alloyId13 = [];
-    $.__views.__alloyId14 = Ti.UI.createTableViewRow({
+    var __alloyId0 = [];
+    $.__views.__alloyId1 = Ti.UI.createTableViewRow({
         selectedBackgroundColor: "#F5A623",
-        id: "__alloyId14"
+        id: "__alloyId1"
     });
-    __alloyId13.push($.__views.__alloyId14);
-    $.__views.__alloyId15 = Ti.UI.createImageView({
+    __alloyId0.push($.__views.__alloyId1);
+    $.__views.__alloyId2 = Ti.UI.createImageView({
         left: 20,
         width: 22,
         image: "/movie.png",
-        id: "__alloyId15"
+        id: "__alloyId2"
     });
-    $.__views.__alloyId14.add($.__views.__alloyId15);
-    $.__views.__alloyId16 = Ti.UI.createLabel({
+    $.__views.__alloyId1.add($.__views.__alloyId2);
+    $.__views.__alloyId3 = Ti.UI.createLabel({
         color: "white",
         left: 65,
         text: "My Watchlist",
-        id: "__alloyId16"
+        id: "__alloyId3"
     });
-    $.__views.__alloyId14.add($.__views.__alloyId16);
-    $.__views.__alloyId17 = Ti.UI.createTableViewRow({
+    $.__views.__alloyId1.add($.__views.__alloyId3);
+    $.__views.__alloyId4 = Ti.UI.createTableViewRow({
         selectedBackgroundColor: "#F5A623",
-        id: "__alloyId17"
+        id: "__alloyId4"
     });
-    __alloyId13.push($.__views.__alloyId17);
+    __alloyId0.push($.__views.__alloyId4);
     $.__views.leftTableIconHot = Ti.UI.createImageView({
         left: 20,
         width: 22,
         id: "leftTableIconHot",
         image: "/news.png"
     });
-    $.__views.__alloyId17.add($.__views.leftTableIconHot);
-    $.__views.__alloyId18 = Ti.UI.createLabel({
+    $.__views.__alloyId4.add($.__views.leftTableIconHot);
+    $.__views.__alloyId5 = Ti.UI.createLabel({
         color: "white",
         left: 65,
         text: "Whats' hot",
-        id: "__alloyId18"
+        id: "__alloyId5"
     });
-    $.__views.__alloyId17.add($.__views.__alloyId18);
-    $.__views.__alloyId19 = Ti.UI.createTableViewRow({
+    $.__views.__alloyId4.add($.__views.__alloyId5);
+    $.__views.__alloyId6 = Ti.UI.createTableViewRow({
         selectedBackgroundColor: "#F5A623",
-        id: "__alloyId19"
+        id: "__alloyId6"
     });
-    __alloyId13.push($.__views.__alloyId19);
+    __alloyId0.push($.__views.__alloyId6);
     $.__views.leftTableIconGenre = Ti.UI.createImageView({
         left: 20,
         width: 22,
         id: "leftTableIconGenre",
         image: "/movie.png"
     });
-    $.__views.__alloyId19.add($.__views.leftTableIconGenre);
-    $.__views.__alloyId20 = Ti.UI.createLabel({
+    $.__views.__alloyId6.add($.__views.leftTableIconGenre);
+    $.__views.__alloyId7 = Ti.UI.createLabel({
         color: "white",
         left: 65,
         text: "Movie Genre",
-        id: "__alloyId20"
+        id: "__alloyId7"
     });
-    $.__views.__alloyId19.add($.__views.__alloyId20);
-    $.__views.__alloyId21 = Ti.UI.createTableViewRow({
+    $.__views.__alloyId6.add($.__views.__alloyId7);
+    $.__views.__alloyId8 = Ti.UI.createTableViewRow({
         selectedBackgroundColor: "#F5A623",
-        id: "__alloyId21"
+        id: "__alloyId8"
     });
-    __alloyId13.push($.__views.__alloyId21);
+    __alloyId0.push($.__views.__alloyId8);
     $.__views.leftTableIconNews = Ti.UI.createImageView({
         left: 20,
         width: 16,
         id: "leftTableIconNews",
         image: "/news.png"
     });
-    $.__views.__alloyId21.add($.__views.leftTableIconNews);
-    $.__views.__alloyId22 = Ti.UI.createLabel({
+    $.__views.__alloyId8.add($.__views.leftTableIconNews);
+    $.__views.__alloyId9 = Ti.UI.createLabel({
         color: "white",
         left: 65,
         text: "Movies News",
-        id: "__alloyId22"
+        id: "__alloyId9"
     });
-    $.__views.__alloyId21.add($.__views.__alloyId22);
-    $.__views.__alloyId23 = Ti.UI.createTableViewRow({
+    $.__views.__alloyId8.add($.__views.__alloyId9);
+    $.__views.__alloyId10 = Ti.UI.createTableViewRow({
         selectedBackgroundColor: "#F5A623",
-        id: "__alloyId23"
+        id: "__alloyId10"
     });
-    __alloyId13.push($.__views.__alloyId23);
+    __alloyId0.push($.__views.__alloyId10);
     $.__views.leftTableIconTicket = Ti.UI.createImageView({
         left: 20,
         width: 22,
         id: "leftTableIconTicket",
         image: "/ticket.png"
     });
-    $.__views.__alloyId23.add($.__views.leftTableIconTicket);
-    $.__views.__alloyId24 = Ti.UI.createLabel({
+    $.__views.__alloyId10.add($.__views.leftTableIconTicket);
+    $.__views.__alloyId11 = Ti.UI.createLabel({
         color: "white",
         left: 65,
         text: "Buy tickets",
-        id: "__alloyId24"
+        id: "__alloyId11"
     });
-    $.__views.__alloyId23.add($.__views.__alloyId24);
-    $.__views.__alloyId25 = Ti.UI.createTableViewRow({
+    $.__views.__alloyId10.add($.__views.__alloyId11);
+    $.__views.__alloyId12 = Ti.UI.createTableViewRow({
         selectedBackgroundColor: "#F5A623",
-        id: "__alloyId25"
+        id: "__alloyId12"
     });
-    __alloyId13.push($.__views.__alloyId25);
+    __alloyId0.push($.__views.__alloyId12);
     $.__views.leftTableIconSetting = Ti.UI.createImageView({
         left: 20,
         width: 22,
         id: "leftTableIconSetting",
         image: "/setting.png"
     });
-    $.__views.__alloyId25.add($.__views.leftTableIconSetting);
-    $.__views.__alloyId26 = Ti.UI.createLabel({
+    $.__views.__alloyId12.add($.__views.leftTableIconSetting);
+    $.__views.__alloyId13 = Ti.UI.createLabel({
         color: "white",
         left: 65,
         text: "Settings",
-        id: "__alloyId26"
+        id: "__alloyId13"
     });
-    $.__views.__alloyId25.add($.__views.__alloyId26);
+    $.__views.__alloyId12.add($.__views.__alloyId13);
     $.__views.leftTable = Ti.UI.createTableView({
         backgroundColor: "#2e2e2e",
         opacity: 0,
@@ -157,7 +158,7 @@ function Controller() {
         top: 30,
         height: 417,
         separatorColor: "#979797",
-        data: __alloyId13,
+        data: __alloyId0,
         id: "leftTable"
     });
     $.__views.sidebar.add($.__views.leftTable);
@@ -165,60 +166,82 @@ function Controller() {
     _.extend($, $.__views);
     var NappSlideMenu = require("dk.napp.slidemenu");
     var Animator = require("com.animecyc.animator");
+    var Blur = require("bencoding.blur");
+    var Fader = require("alloy/animation");
+    var tmpNavController = Alloy.createController("tmp/tmpNav");
+    var nowPlayingController = Alloy.createController("hot/nowPlaying");
+    var tmpNav = tmpNavController.getView();
     var winAnimation = {
         trans3d: Ti.UI.create3DMatrix(),
+        trans2d: Ti.UI.create2DMatrix(),
         animation: Ti.UI.createAnimation()
     };
-    var nowPlaying = Alloy.createController("content/nowPlaying");
-    var detail = Alloy.createController("detail");
     var window = NappSlideMenu.createSlideMenuWindow({
         centerWindow: $.root,
         leftWindow: $.sidebar,
         leftLedge: 140,
-        statusBarStyle: NappSlideMenu.STATUSBAR_WHITE,
-        parallaxAmount: .3
+        parallaxAmount: .3,
+        clipMode: Titanium.UI.iOS.CLIP_MODE_DISABLED,
+        viewShadowRadius: 10,
+        viewShadowColor: "#000000",
+        viewShadowOffset: {
+            x: 0,
+            y: 0
+        }
     });
-    var tempWin = Ti.UI.createWindow({
-        backgroundColor: "#4A4A4A",
+    var blurView = Ti.UI.createImageView({
         width: "100%",
         height: "100%",
-        top: "100%"
+        opacity: 0,
+        viewShadowRadius: 10,
+        viewShadowColor: "#000000",
+        viewShadowOffset: {
+            x: 0,
+            y: 0
+        },
+        zIndex: 999,
+        clipMode: Titanium.UI.iOS.CLIP_MODE_DISABLED
     });
+    window.add(blurView);
     winAnimation.trans3d.setM34(-0.001);
     winAnimation.animation.curve = Ti.UI.ANIMATION_CURVE_EASE_OUT;
     winAnimation.animation.duration = 300;
-    nowPlaying.initialize();
-    $.main.add(nowPlaying.getView());
+    nowPlayingController.initialize();
+    $.main.add(nowPlayingController.getView());
     $.hamburger.addEventListener("click", function() {
         window.toggleLeftView();
     });
-    $.main.addEventListener("click", function() {
-        tempWin.add(detail.getView());
-        tempWin.open();
+    Ti.App.addEventListener("hot:movie:open", function() {
+        var img = Blur.applyBlurTo({
+            view: window,
+            blurLevel: 2,
+            blurTintColor: "#CCCCCC"
+        });
+        blurView.image = img;
+        Fader.fadeIn(blurView, 430);
         setTimeout(function() {
-            Animator.animate(tempWin, {
-                duration: 430,
-                easing: Animator.EXP_OUT,
+            Animator.animate(tmpNav, {
+                duration: 530,
+                easing: Animator.QUINT_OUT,
                 top: 70
             });
-        }, 200);
+        }, 100);
         winAnimation.animation.transform = winAnimation.trans3d.translate(0, 0, -100);
         setTimeout(function() {
             Animator.animate(window, {
                 duration: 630,
-                easing: Animator.BACK_OUT,
+                easing: Animator.QUINT_OUT,
                 transform: winAnimation.animation.transform
             });
-        }, 200);
+        }, 60);
     });
-    tempWin.addEventListener("click", function() {
-        Animator.animate(tempWin, {
+    Ti.App.addEventListener("hot:movie:close", function() {
+        Animator.animate(tmpNav, {
             duration: 530,
             easing: Animator.EXP_OUT,
             top: 768
-        }, function() {
-            tempWin.close();
         });
+        Fader.fadeOut(blurView, 330);
         winAnimation.animation.transform = winAnimation.trans3d.translate(0, 0, 0);
         Animator.animate(window, {
             duration: 430,

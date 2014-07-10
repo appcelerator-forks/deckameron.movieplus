@@ -1,73 +1,104 @@
 
+// Libs
 var NappSlideMenu = require('dk.napp.slidemenu');
 var Animator = require('com.animecyc.animator');
-// var Fade = require('alloy/animation');
+var Blur = require('bencoding.blur');
+var Fader = require('alloy/animation');
+
+// Controllers
+var tmpNavController = Alloy.createController('tmp/tmpNav');
+var nowPlayingController = Alloy.createController('hot/nowPlaying');
+
+// Views
+var tmpNav = tmpNavController.getView();
+
 var winAnimation = {
 	trans3d: Ti.UI.create3DMatrix(),
+	trans2d: Ti.UI.create2DMatrix(),
 	animation: Ti.UI.createAnimation()
 };
-var nowPlaying = Alloy.createController('hot/nowPlaying');
-var detail = Alloy.createController('detail');
 
 var window = NappSlideMenu.createSlideMenuWindow({
 	centerWindow: $.root,
 	leftWindow: $.sidebar,
 	leftLedge: 140,
-	statusBarStyle: NappSlideMenu.STATUSBAR_WHITE,
-	parallaxAmount: 0.3
+	// statusBarStyle: NappSlideMenu.STATUSBAR_WHITE,
+	parallaxAmount: 0.3,
+	clipMode: Titanium.UI.iOS.CLIP_MODE_DISABLED,
+    viewShadowRadius: 10,
+	viewShadowColor: "#000000",
+    viewShadowOffset: {
+    	x: 0,
+    	y: 0
+    }
 });
 
-var tempWin = Ti.UI.createWindow({
-    backgroundColor: '#4A4A4A',
-    width: "100%",
-    height: "100%",
-    top: "100%"
+var blurView = Ti.UI.createImageView({
+	width: "100%",
+	height: "100%",
+	opacity: 0,
+    viewShadowRadius: 10,
+    viewShadowColor: "#000000",
+    viewShadowOffset: {
+    	x: 0,
+    	y: 0
+    },
+	zIndex: 999,
+	clipMode: Titanium.UI.iOS.CLIP_MODE_DISABLED
 });
+
+window.add( blurView );
 
 winAnimation.trans3d.setM34( 1.0 / -1000 );
 winAnimation.animation.curve = Ti.UI.ANIMATION_CURVE_EASE_OUT;
 winAnimation.animation.duration = 300;
 
-nowPlaying.initialize();
-$.main.add( nowPlaying.getView() );
+nowPlayingController.initialize();
+$.main.add( nowPlayingController.getView() );
 
 $.hamburger.addEventListener('click', function() {
 	window.toggleLeftView();
 });
 
-$.main.addEventListener('click', function() {
+Ti.App.addEventListener('hot:movie:open', function() {
 	
-	tempWin.add(detail.getView());
-    tempWin.open();
-	setTimeout(function() {
-    	Animator.animate(tempWin, {
-        	duration: 430,
-        	easing: Animator.EXP_OUT,
-        	top: 90
-    	});
-	}, 200);
+	var img = Blur.applyBlurTo({
+		view: window,
+    	blurLevel: 2, 
+    	blurTintColor:"#CCCCCC"
+	});
+	
+	blurView.image = img;
+	Fader.fadeIn( blurView, 430 );
 
+	setTimeout(function() {
+    	Animator.animate(tmpNav, {
+        	duration: 530,
+        	easing: Animator.QUINT_OUT,
+        	top: 70
+    	});
+	}, 100);
+	
     winAnimation.animation.transform = winAnimation.trans3d.translate(0, 0, -100);
     setTimeout(function() {
         Animator.animate(window, {
             duration: 630,
-            easing: Animator.BACK_OUT,
+            easing: Animator.QUINT_OUT,
             transform: winAnimation.animation.transform 
         });
-    }, 200);
-    	
+    }, 60);
 });
 
 
-tempWin.addEventListener('click', function() {
+Ti.App.addEventListener('hot:movie:close', function() {
 		
-    Animator.animate(tempWin, {
+    Animator.animate(tmpNav, {
         duration: 530,
         easing: Animator.EXP_OUT,
         top: 768
-    }, function() {
-    	tempWin.close();
     });
+    
+    Fader.fadeOut( blurView, 330 );
     
     winAnimation.animation.transform = winAnimation.trans3d.translate(0, 0, 0);
     Animator.animate(window, {

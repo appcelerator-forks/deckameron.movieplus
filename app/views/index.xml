@@ -1,13 +1,15 @@
 <Alloy>
 
     <NavigationWindow id="root">
+    	
      	<Window id="main">
-
+     		
 			<LeftNavButton id="nav">
 				<Button id="hamburger"></Button>
 			</LeftNavButton>
 			
         </Window>   
+
     </NavigationWindow>
     
     <Window id="sidebar">
@@ -45,5 +47,5 @@
             
         </TableView>    
     </Window>
-	
+    
 </Alloy>

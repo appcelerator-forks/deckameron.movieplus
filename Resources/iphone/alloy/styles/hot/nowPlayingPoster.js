@@ -1,0 +1,1 @@
+module.exports = [{"isId":true,"priority":100000.0026,"key":"posterBlurBg","style":{height:"150%",width:"150%",top:10,}},{"isId":true,"priority":100000.0027,"key":"posterImage","style":{width:170,height:255,borderWidth:1,borderColor:"#C7C7C7",shadow:{shadowOpacity:1,shadowRadius:9,shadowOffset:{x:0,y:0,},},top:130,}}];

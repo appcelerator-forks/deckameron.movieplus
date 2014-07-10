@@ -9,8 +9,12 @@ var skipUnit = 65;
 var visibleRowsNum = 6;
 var skip = 0;
 
+// set of flags.
 var isReachTail = false;
 var page = 1;
+var fetchingCompleted = false;
+
+var trans = Ti.UI.create3DMatrix();
 
 function toRadians( angle ) {
 	return angle * Math.PI / 180;
@@ -34,7 +38,6 @@ function layoutCircleView( xOffset ) {
 	var children = [];
 	var angleAndSkipForXOffset = getAngleAndSkipForXOffset( xOffset );
 	var firstCellAngle = angleAndSkipForXOffset.angle + 5 * angle_gap;
-	var skip = angleAndSkipForXOffset.skip;
 	
 	for ( var i = skip; i < skip + visibleRowsNum; i++ ) {
 	
@@ -43,16 +46,18 @@ function layoutCircleView( xOffset ) {
 		
 		var y = radius * Math.sin( angle );
 		if ( $.postersWheel.children[i] ) {
-			$.postersWheel.children[i].transform = $.postersWheel.children[i].trans.translate(0, 330 - y).rotate(toDegrees(angle) - 90);
+			$.postersWheel.children[i].setTransform( trans.translate( 0, 330 - y, 0 ).rotate( toDegrees(angle) - 90, 0, 0, 1 ) );
 		}
 	}
 }
 
 function addPosters( collection ) {
+	var posters = [];
+
 	if ( collection.length ) {
 		collection.each(function( model ) {
 			if ( ! model.get('isShown') ) {
-				var postersRow = Ti.UI.createView({
+				var posterRow = Ti.UI.createView({
 					width: 65,
 					height: 92
 				});
@@ -70,13 +75,14 @@ function addPosters( collection ) {
 					}
 				});
 			
-				postersRow.trans = Ti.UI.create2DMatrix();	
-				postersRow.add( poster );
-			
-				$.postersWheel.add( postersRow );
-				model.set('isShown', true);
+				posterRow.add( poster );
+				posters.push( posterRow );
+				model.set( 'isShown', true );
 			}
 		});
+		
+		if ( posters.length ) $.postersWheel.add( posters );
+		$.postersWheel.setDecelerationRate( Titanium.UI.iOS.SCROLL_DECELERATION_RATE_FAST );
 
 		isReachTail = true;
 	}
@@ -86,44 +92,17 @@ function initialize() {
 	
 	// decelerate scroll speed.
 	$.postersWheel.setDecelerationRate( Titanium.UI.iOS.SCROLL_DECELERATION_RATE_FAST );
-	
+
 	nowPlayingCollection.getList(
 	page,
 	function() { /* success */
 		
 		var posterImage = this.at(0).getPoster();
 
-		var imgView = Blur.createGPUBlurImageView({
-    		height: "150%",
-    		width: "150%",
-    		top: 10,
-    		image: posterImage,
-    		blur: {
-        		type: Blur.GAUSSIAN_BLUR, 
-        		radiusInPixels: 6 
-    		}
-		});
-		
-		var posterView = Ti.UI.createImageView({
-			id: 'poster',
-			width: 170,
-			height: 255,
-			image: posterImage,
-			borderWidth: 1,
-			borderColor: "#C7C7C7",
-			shadow: {
-				shadowOpacity: 1,
-            	shadowRadius: 9,
-            	shadowOffset: {
-            		x: 0,
-                	y: 0
-            	}
-			},
-			top: 130
-		});
-		
-		$.content.add( imgView );
-		imgView.add( posterView );
+        var nowPlayingPoster = Alloy.createController('hot/nowPlayingPoster', {
+                posterImage: posterImage
+        });
+		$.content.add( nowPlayingPoster.getView() );
 
 		addPosters( this );
 		layoutCircleView( 0 );
@@ -138,8 +117,8 @@ function initialize() {
 
 $.postersWheel.addEventListener('scroll', function(e) {
 	var self = this;
-
-	if ( skip >= (16 + 20 * (page - 1) ) && isReachTail ) {
+	
+	if ( ( skip >= ( nowPlayingCollection.length - 5 ) ) && isReachTail ) {
 
 		isReachTail = false;
 		
@@ -147,7 +126,7 @@ $.postersWheel.addEventListener('scroll', function(e) {
 		++page,
 		function() {
 
-			addPosters( this );
+			fetchingCompleted = true;
 			
 		}, function( err ) {
 			
@@ -160,25 +139,34 @@ $.postersWheel.addEventListener('scroll', function(e) {
 
 });
 
-$.postersWheel.addEventListener('scrollend', function(e) {
-	var n = Math.floor($.postersWheel.contentOffset.x / 65);
-	var delta = $.postersWheel.contentOffset.x - n * 65;
+$.postersWheel.addEventListener('scrollend', function( e ) {
+	
+	var self = this;
+	
+	if ( fetchingCompleted ) {
+		fetchingCompleted = false;
+		addPosters( nowPlayingCollection );
+	}
+	
+	var n = Math.floor(e.source.contentOffset.x / 65);
+	var delta = e.source.contentOffset.x - n * 65;
 	if ( 0 === delta ) return;
 	if ( delta > 32.5 )
-		$.postersWheel.scrollTo( $.postersWheel.contentOffset.x + 65 - delta, 0 );
+		$.postersWheel.scrollTo( e.source.contentOffset.x + 65 - delta, 0 );
 	else
-		$.postersWheel.scrollTo( $.postersWheel.contentOffset.x - delta, 0 );
+		$.postersWheel.scrollTo( e.source.contentOffset.x - delta, 0 );
 });
 
-$.postersWheel.addEventListener('dragend', function(e) {
+$.postersWheel.addEventListener('dragend', function( e ) {
+
 	if ( false === e.decelerate ) {
-	var n = Math.floor($.postersWheel.contentOffset.x / 65);
-	var delta = $.postersWheel.contentOffset.x - n * 65;
+	var n = Math.floor(e.source.contentOffset.x / 65);
+	var delta = e.source.contentOffset.x - n * 65;
 	if ( 0 === delta ) return;
 	if ( delta > 32.5 )
-		$.postersWheel.scrollTo( $.postersWheel.contentOffset.x + 65 - delta, 0 );
+		$.postersWheel.scrollTo( e.source.contentOffset.x + 65 - delta, 0 );
 	else
-		$.postersWheel.scrollTo( $.postersWheel.contentOffset.x - delta, 0 );
+		$.postersWheel.scrollTo( e.source.contentOffset.x - delta, 0 );
 	}
 });
 

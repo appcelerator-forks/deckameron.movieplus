@@ -10,23 +10,33 @@
 //
 // Alloy.Globals.someGlobalFunction = function(){};
 
+// custom array insert methods.
+// ported from http://stackoverflow.com/questions/586182/insert-item-into-array-at-a-specific-index.
+// really cool.
+Array.prototype.insert = function( index ) {
+	index = Math.min( index, this.length );
+	arguments.length > 1
+	&& this.splice.apply( this, [index, 0].concat( [].pop.call(arguments) ) )
+	&& this.insert.apply( this, arguments );
+	
+	return this;
+};
+
+Array.prototype.prepend = function() {
+	var args = [0];
+	for ( var i = 0; i < arguments.length; i++ ) args.push( arguments[i] );
+	return this.insert.apply( this, args );
+};
+
+Array.prototype.append = function() {
+	var args = [ this.length ];
+	for ( var i = 0; i < arguments.length; i++ ) args.push( arguments[i] );
+	return this.insert.apply( this, args );
+};
+
 // Ti.BlurView require <ImageView> being created in advance.
 Ti.UI.createImageView();
 
 Alloy.Collections.instance('nowPlaying');
-var upComing = Alloy.Collections.instance('upComing');
-
-upComing.getList(
-1, /* page */
-function() { /* success callback */
-	
-	var poster_path = this.at(0).getBackdrop();
-	alert( poster_path );
-
-}, function( err ) { /* error callback */
-	
-	alert(err);
-	
-});
-
-
+Alloy.Collections.instance('upComing');
+Alloy.Collections.instance('movieDetail');

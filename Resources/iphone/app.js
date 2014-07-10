@@ -1,16 +1,29 @@
 var Alloy = require("alloy"), _ = Alloy._, Backbone = Alloy.Backbone;
 
+Array.prototype.insert = function(index) {
+    index = Math.min(index, this.length);
+    arguments.length > 1 && this.splice.apply(this, [ index, 0 ].concat([].pop.call(arguments))) && this.insert.apply(this, arguments);
+    return this;
+};
+
+Array.prototype.prepend = function() {
+    var args = [ 0 ];
+    for (var i = 0; arguments.length > i; i++) args.push(arguments[i]);
+    return this.insert.apply(this, args);
+};
+
+Array.prototype.append = function() {
+    var args = [ this.length ];
+    for (var i = 0; arguments.length > i; i++) args.push(arguments[i]);
+    return this.insert.apply(this, args);
+};
+
 Ti.UI.createImageView();
 
 Alloy.Collections.instance("nowPlaying");
 
-var upComing = Alloy.Collections.instance("upComing");
+Alloy.Collections.instance("upComing");
 
-upComing.getList(1, function() {
-    var poster_path = this.at(0).getBackdrop();
-    alert(poster_path);
-}, function(err) {
-    alert(err);
-});
+Alloy.Collections.instance("movieDetail");
 
 Alloy.createController("index");

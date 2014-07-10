@@ -1,0 +1,5 @@
+<Alloy>
+	<GPUBlurImageView id="posterBlurBg" ns="require('bencoding.blur')" >
+		<View id="posterImage"></View>
+	</GPUBlurImageView>
+</Alloy>

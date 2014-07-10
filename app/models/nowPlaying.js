@@ -17,10 +17,16 @@ exports.definition = {
 			
 			getPoster: function() {
 				var self = this;
-				return theMovieDb.common.getImage({ 
+				
+				if ( self.has('poster_path') && null !== self.get('poster_path') ) {
+					return theMovieDb.common.getImage({ 
 						size: 'w500',
 						file: self.get('poster_path')
-				});
+					});
+				} else {
+					return null;
+				}
+				
 			}
 		});
 
@@ -40,14 +46,15 @@ exports.definition = {
                 	
                 	page: page
                 	
-                }, function( data ) {
+                }, function ( data ) {
 
 					var d = JSON.parse( data ).results;
+					
 					self.add(d);
 					
 					if ( _.isFunction( success ) ) success.call( self );
 
-                }, function( err ) {
+                }, function ( err ) {
                 	
 					if ( _.isFunction( error ) ) error.call( self, err );
 

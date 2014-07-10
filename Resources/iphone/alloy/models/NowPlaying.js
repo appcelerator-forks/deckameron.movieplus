@@ -2,6 +2,9 @@ var theMovieDb = require("themoviedb");
 
 exports.definition = {
     config: {
+        defaults: {
+            isShown: false
+        },
         adapter: {
             type: "properties",
             collection_name: "nowPlaying"
@@ -11,10 +14,10 @@ exports.definition = {
         _.extend(Model.prototype, {
             getPoster: function() {
                 var self = this;
-                return theMovieDb.common.getImage({
+                return self.has("poster_path") && null !== self.get("poster_path") ? theMovieDb.common.getImage({
                     size: "w500",
                     file: self.get("poster_path")
-                });
+                }) : null;
             }
         });
         return Model;
@@ -23,7 +26,7 @@ exports.definition = {
         _.extend(Collection.prototype, {
             getList: function(page, success, error) {
                 var self = this;
-                page = _.isNumber(page) && page >= 1 && 1e3 >= page ? 1 : page;
+                page = _.isNumber(page) && page >= 1 && 1e3 >= page ? page : 1;
                 theMovieDb.movies.getNowPlaying({
                     page: page
                 }, function(data) {

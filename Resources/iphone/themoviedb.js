@@ -27,7 +27,7 @@ theMovieDb.common = {
     },
     getImage: function(options) {
         "use strict";
-        return theMovieDb.common.images_uri + "/" + options.size + "/" + options.file;
+        return theMovieDb.common.images_uri + "/" + options.size + options.file;
     },
     client: function(options, success, error) {
         "use strict";
