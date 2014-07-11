@@ -1,0 +1,6 @@
+<Alloy>
+	<View id="movieDetailTrailerWrapper">
+		<VideoPlayer id="movieDetailTrailer" ns="Ti.Media" />
+		<Button id="movieDetailTrailerPlayBtn"></Button>
+	</View>
+</Alloy>

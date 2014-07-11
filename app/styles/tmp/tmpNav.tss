@@ -1,0 +1,112 @@
+
+"#tmpNav": {
+    backgroundColor: '#4A4A4A',
+    top: "100%"
+}
+
+"#movieDetailWin": {
+    backgroundColor: '#4A4A4A',
+    width: "100%",
+    height: "100%",
+    top: 0,
+    barColor: "#4A4A4A",
+    translucent: false,
+    titleAttributes: {
+    	color: '#F5A623',
+    	font: {
+    		fontSize: 15 
+    	}
+    }
+}
+
+"#movieDetailBtnClose": {
+	backgroundImage: "/movieDetailBtnClose.png",
+	width: 16.5,
+	height: 16.5
+}
+
+"#movieDetailTable": {
+	backgroundColor: "transparent",
+	separatorColor: "#979797"
+}
+
+"#movieDetailHeaderRow": {
+	width: "100%",
+	height: "auto"
+}
+
+"#movieDetailHeader": {
+	width: "100%",
+	height: "100%"
+}
+
+"#movieDetailCover": {
+	width: "100%",
+	height: 180,
+	top: 0
+}
+
+"#movieDetailRatingRow": {
+	width: "100%",
+	height: 50
+}
+
+"#movieDetailRating": {
+	width: "auto",
+	height: "100%",
+	left: 15
+}
+
+"#movieDetailRatingTitle": {
+	color: "#F5A623",
+	font: {
+		fontSize: 14,
+		fontWeight: "bold"
+	},
+	left: 0
+}
+
+"#movieDetailRatingIMDB": {
+	width: "auto",
+	height: 20,
+	left: 60
+}
+
+"#movieDetailRatingNumber": {
+	color: "#CFCFCF",
+	font: {
+		fontSize: 12,
+		fontWeight: "bold"
+	},
+	left: 110
+}
+
+"#movieDetailTrailersRow": {
+	width: "100%",
+	height: 154
+}
+
+"#movieDetailTrailers": {
+	width: "auto",
+	height: "100%",
+	left: 0
+}
+
+"#movieDetailTrailersTitle": {
+	color: "#F5A623",
+	font: {
+		fontSize: 14,
+		fontWeight: "bold"
+	},
+	left: 15,
+	top: 14
+}
+
+"#movieDetailTrailersScrollView": {
+	width: "auto",
+	height: 113,
+	layout: "horizontal",
+	left: 10,
+	top: 30,
+	backgroundColor: "transparent"
+}
