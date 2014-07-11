@@ -64,8 +64,8 @@ Ti.App.addEventListener('hot:movie:open', function() {
 	
 	var img = Blur.applyBlurTo({
 		view: window,
-    	blurLevel: 2, 
-    	blurTintColor:"#CCCCCC"
+    	blurLevel: 3, 
+    	blurTintColor:"#BFBFBF"
 	});
 	
 	blurView.image = img;
