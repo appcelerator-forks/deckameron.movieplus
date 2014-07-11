@@ -1,0 +1,11 @@
+<Alloy>
+	<View id="movieDetailCastWrapper">
+		
+		<View id="movieDetailCastAvatarWrapper">
+			<ImageView id="movieDetailCastAvatar"></ImageView>
+		</View>
+		
+		<Label id="movieDetailCastName"></Label>
+
+	</View>
+</Alloy>

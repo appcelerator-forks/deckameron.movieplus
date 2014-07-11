@@ -4,6 +4,7 @@ var movieDetailCollection = Alloy.Collections.instance('movieDetail');
 
 // Controllers
 var movieDetailTrailersController = null;
+var movieDetailCastsController = null;
 
 function createMovieDetailOverview() {
 	
@@ -129,6 +130,30 @@ function renderMovieDetailTrailers( trailersUrl ) {
 	}
 }
 
+function renderMovieDetailCasts( model ) {
+	
+	var views = [];
+	var casts = model.get('casts');
+	movieDetailCastsController = [];
+	
+	if ( casts && _.isArray( casts ) ) {
+					
+		_.each(casts, function( cast, i ) {
+						
+			var _movieDetailCastController = Alloy.createController('tmp/hot/cast', {
+				avatar: model.getCastAvatars( i ),
+				name: cast.name
+			});
+						
+			views.push( _movieDetailCastController.getView() );
+			movieDetailCastsController.push( _movieDetailCastController ); 
+						
+		});
+		
+		$.movieDetailCastsScrollView.add( views );			
+	}
+}
+
 function renderMovieDetail( model ) {
 
 	var movieDetailOverview = createMovieDetailOverview();
@@ -224,8 +249,14 @@ function destoryMovieDetail() {
 	_.each(movieDetailTrailersController, function( controller ) {
 		controller.destroy();
 	});
+
+	$.movieDetailCastsScrollView.removeAllChildren();
+	_.each(movieDetailCastsController, function( controller ) {
+		controller.destroy();
+	});
 	
 	movieDetailTrailersController = null;
+	movieDetailCastsController = null;
 }
 
 Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
@@ -246,10 +277,11 @@ Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
 			var self = this;
 
 			renderMovieDetail( self );
-			renderMovieDetailTrailers( ['different.mp4', 'apple.mp4'] );
 		
 			self.getTrailers(
-			function() { // 1.3. get trailers of the movie
+			function() { // 1.1. get trailers of the movie
+				
+				renderMovieDetailTrailers( self.getTrailerUrl() );
 				
 			}, function( err ) {
 					
@@ -257,21 +289,23 @@ Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
 
 			});
 
-			self.getPosters(
-			function() { // 1.1. get poster of the movie
-			
-			}, function( err ) {
-			
-				alert( "get posters error " + err );
-			});
-
-			self.getCast(
+			self.getCasts(
 			function() { // 1.2. get cast of the movie
+				
+				renderMovieDetailCasts( self );
 				
 			}, function( err ) {
 				
 				alert( "get cast error " + err );
 
+			});
+
+			self.getPosters(
+			function() { // 1.3. get poster of the movie
+			
+			}, function( err ) {
+			
+				alert( "get posters error " + err );
 			});
 			
 		}, function( err ) {
@@ -283,7 +317,7 @@ Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
 	} else {
 
 		renderMovieDetail( movieDetailCollection.get( id ) );
-		renderMovieDetailTrailers( ['different.mp4', 'apple.mp4'] );
+		renderMovieDetailTrailers( movieDetailCollection.get( id ).getTrailerUrl() );
 
 	}
 		

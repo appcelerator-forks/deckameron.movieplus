@@ -76,19 +76,19 @@ exports.definition = {
 							// return url of all trailers as an array
 							var trailersUrl = [];
 							_.each(trailers, function( trailer ) {
-								if ( trailer && trailers.source && "" !== trailers.source ) trailersUrl.push( "www.youtube.com/embed/" + trailers[id].source );
+								if ( trailer && trailer.source && "" !== trailer.source ) trailersUrl.push( "www.youtube.com/embed/" + trailer.source );
 							});
 							return trailersUrl;
 						}
 
-					}
+					} 
 					
 				}
 				
 				return null;
 			},
 			
-			getCast: function( success, error ) {
+			getCasts: function( success, error ) {
 				
 				var self = this;
 				
@@ -99,7 +99,7 @@ exports.definition = {
 				}, function( data ) {
 					
 					data = JSON.parse( data );
-					if ( data.id === self.id && data.cast ) self.set( 'cast', data.cast );
+					if ( data.id === self.id && data.cast ) self.set( 'casts', data.cast );
 
 					if ( _.isFunction( success ) ) success.call( self );
 					
@@ -144,6 +144,7 @@ exports.definition = {
 				});
 			},
 			
+			
 			getBackdropPath: function( id ) {
 				
 				var self = this;
@@ -161,7 +162,7 @@ exports.definition = {
 					
 					if ( _.isArray( backdrops ) ) {
 						
-						var _id = ( id && _.isNumber( id ) ) ? id : 0;
+						var _id = ( undefined !== id && _.isNumber( id ) ) ? id : 0;
 
 						return ( backdrops[_id] && backdrops[_id].file_path && "" !== backdrops[_id].file_path ) ? 
 							theMovieDb.common.getImage({ 
@@ -180,33 +181,52 @@ exports.definition = {
 			getPosterPath: function( id ) {
 				
 				var self = this;
-				
+
 				if ( self.has('posters') ) {
 					
 					var posters = self.get('posters');
 					
 					if ( _.isArray( posters ) ) {
 						
-						var _id = ( id && _.isNumber( id ) ) ? id : 0;
-
-						return ( posters[_id] && posters[_id].file_path && "" !== posters[_id].file_path ) ? 
+						if ( undefined !== id && _.isNumber( id ) ) {
+							
+							return ( posters[id] && posters[id].file_path ) ? 
 							theMovieDb.common.getImage({ 
-								size: 'w500',
-								file: posters[_id].file_path
+								size: 'w400',
+								file: posters[id].file_path
 							}) : null;
-
+							
+						} else {
+							
+							var folder = [];
+							
+							_.each(posters, function( poster ) {
+								if ( poster && poster.file_path ) {
+									var file = theMovieDb.common.getImage({ 
+											size: 'w400',
+											file: cast.file_path
+									});  
+									folder.push( file );
+								}	
+							});
+							
+							return folder;
+							
+						}
+						
 					}
 					
 				}
 				
 				return null;
+				
 			},
 			
 			getCover: function( id ) {
 				
 				var self = this;
 				
-				if ( self.has('poster_path') && "" !== self.get('poster_path') ) {
+				if ( self.has('poster_path') ) {
 					
 					return theMovieDb.common.getImage({ 
 						size: 'w1000',
@@ -214,6 +234,52 @@ exports.definition = {
 					});
 					
 				}
+				
+				return null;
+			},
+
+			
+			getCastAvatars: function( id ) {
+				
+				var self = this;
+				
+				if ( self.has('casts') ) {
+					
+					var casts = self.get('casts');
+					
+					if ( _.isArray( casts ) ) {
+						
+						if ( undefined !== id && _.isNumber( id ) ) {
+							
+							return ( casts[id] && casts[id].profile_path ) ? 
+							theMovieDb.common.getImage({ 
+								size: 'w500',
+								file: casts[id].profile_path
+							}) : null;
+							
+						} else {
+							
+							var avatars = [];
+							
+							_.each(casts, function( cast ) {
+								if ( cast && cast.profile_path ) {
+									var profile = theMovieDb.common.getImage({ 
+											size: 'w500',
+											file: cast.profile_path
+									});  
+									avatars.push( profile );
+								}	
+							});
+							
+							return avatars;
+							
+						}
+						
+					}
+					
+				}
+				
+				return null;
 			}
 			
 		});

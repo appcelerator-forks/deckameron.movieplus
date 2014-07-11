@@ -110,3 +110,33 @@
 	top: 30,
 	backgroundColor: "transparent"
 }
+
+"#movieDetailCastsRow": {
+	width: "100%",
+	height: 154
+}
+
+"#movieDetailCasts": {
+	width: "auto",
+	height: "100%",
+	left: 0
+}
+
+"#movieDetailCastsTitle": {
+	color: "#F5A623",
+	font: {
+		fontSize: 14,
+		fontWeight: "bold"
+	},
+	left: 15,
+	top: 14
+}
+
+"#movieDetailCastsScrollView": {
+	width: "auto",
+	height: 113,
+	layout: "horizontal",
+	left: 5,
+	top: 25,
+	backgroundColor: "transparent"
+}

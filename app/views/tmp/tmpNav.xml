@@ -36,6 +36,15 @@
 					</View>
 					
 				</TableViewRow>
+
+				<TableViewRow id="movieDetailCastsRow">
+					
+					<View id="movieDetailCasts">
+						<Label id="movieDetailCastsTitle" text="Cast"></Label>
+						<ScrollView id="movieDetailCastsScrollView"></ScrollView>
+					</View>
+					
+				</TableViewRow>
 				
 			</TableView>
 			
