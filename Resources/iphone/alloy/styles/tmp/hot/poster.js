@@ -1,0 +1,1 @@
+module.exports = [{"isId":true,"priority":100000.0057,"key":"movieDetailPosterWrapper","style":{width:120,height:174,shadow:{shadowOpacity:0.35,shadowRadius:5,shadowOffset:{x:0,y:0,},},}},{"isId":true,"priority":100000.0058,"key":"movieDetailPoster","style":{width:100,height:150,}}];

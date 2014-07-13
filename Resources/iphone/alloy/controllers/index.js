@@ -222,7 +222,7 @@ function Controller() {
         setTimeout(function() {
             Animator.animate(tmpNav, {
                 duration: 530,
-                easing: Animator.QUINT_OUT,
+                easing: Animator.EXP_OUT,
                 top: 70
             });
         }, 100);
@@ -230,7 +230,7 @@ function Controller() {
         setTimeout(function() {
             Animator.animate(window, {
                 duration: 630,
-                easing: Animator.QUINT_OUT,
+                easing: Animator.BACK_OUT,
                 transform: winAnimation.animation.transform
             });
         }, 60);
@@ -239,7 +239,7 @@ function Controller() {
         Animator.animate(tmpNav, {
             duration: 530,
             easing: Animator.EXP_OUT,
-            top: 768
+            top: Ti.Platform.displayCaps.platformHeight
         });
         Fader.fadeOut(blurView, 330);
         winAnimation.animation.transform = winAnimation.trans3d.translate(0, 0, 0);

@@ -115,6 +115,22 @@ function Controller() {
             $.movieDetailCastsScrollView.add(views);
         }
     }
+    function renderMovieDetailPosters(postersUrl) {
+        var views = [];
+        movieDetailPostersController = [];
+        if (postersUrl && _.isArray(postersUrl)) {
+            _.each(postersUrl, function(url) {
+                var _movieDetailPosterController = Alloy.createController("tmp/hot/poster", {
+                    url: url,
+                    win: $.movieDetailWin,
+                    view: $.movieDetailTable
+                });
+                views.push(_movieDetailPosterController.getView());
+                movieDetailPostersController.push(_movieDetailPosterController);
+            });
+            $.movieDetailPostersScrollView.add(views);
+        }
+    }
     function renderMovieDetail(model) {
         var movieDetailOverview = createMovieDetailOverview();
         var movieDetailOverviewTitle = createMovieDetailOverviewTitle();
@@ -125,7 +141,7 @@ function Controller() {
         $.movieDetailWin.setTitle(model.get("title"));
         $.movieDetailCover.setImage(model.getBackdropPath());
         $.movieDetailHeader.add(movieDetailOverview);
-        $.movieDetailRatingNumber.setText(model.get("vote_average"));
+        $.movieDetailRatingNumber.setText(parseFloat(model.get("vote_average")).toFixed(1));
         $.tmpNav.open();
         var movieDetailCoverHeight = parseInt($.movieDetailCover.height);
         var movieDetailOverviewContentHeight = parseInt(movieDetailOverviewContent.toImage().height);
@@ -175,8 +191,13 @@ function Controller() {
         _.each(movieDetailCastsController, function(controller) {
             controller.destroy();
         });
+        $.movieDetailPostersScrollView.removeAllChildren();
+        _.each(movieDetailPostersController, function(controller) {
+            controller.destroy();
+        });
         movieDetailTrailersController = null;
         movieDetailCastsController = null;
+        movieDetailPostersController = null;
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "tmp/tmpNav";
@@ -210,6 +231,7 @@ function Controller() {
     $.__views.movieDetailWin.leftNavButton = $.__views.movieDetailBtnClose;
     var __alloyId19 = [];
     $.__views.movieDetailHeaderRow = Ti.UI.createTableViewRow({
+        selectedBackgroundColor: "transparent",
         width: "100%",
         height: "auto",
         id: "movieDetailHeaderRow"
@@ -229,6 +251,7 @@ function Controller() {
     });
     $.__views.movieDetailHeader.add($.__views.movieDetailCover);
     $.__views.movieDetailRatingRow = Ti.UI.createTableViewRow({
+        selectedBackgroundColor: "transparent",
         width: "100%",
         height: 50,
         id: "movieDetailRatingRow"
@@ -271,6 +294,7 @@ function Controller() {
     });
     $.__views.movieDetailRating.add($.__views.movieDetailRatingNumber);
     $.__views.movieDetailTrailersRow = Ti.UI.createTableViewRow({
+        selectedBackgroundColor: "transparent",
         width: "100%",
         height: 154,
         id: "movieDetailTrailersRow"
@@ -299,13 +323,14 @@ function Controller() {
         width: "auto",
         height: 113,
         layout: "horizontal",
-        left: 10,
+        left: 8,
         top: 30,
         backgroundColor: "transparent",
         id: "movieDetailTrailersScrollView"
     });
     $.__views.movieDetailTrailers.add($.__views.movieDetailTrailersScrollView);
     $.__views.movieDetailCastsRow = Ti.UI.createTableViewRow({
+        selectedBackgroundColor: "transparent",
         width: "100%",
         height: 154,
         id: "movieDetailCastsRow"
@@ -340,6 +365,42 @@ function Controller() {
         id: "movieDetailCastsScrollView"
     });
     $.__views.movieDetailCasts.add($.__views.movieDetailCastsScrollView);
+    $.__views.movieDetailPostersRow = Ti.UI.createTableViewRow({
+        selectedBackgroundColor: "transparent",
+        width: "100%",
+        height: 216,
+        id: "movieDetailPostersRow"
+    });
+    __alloyId19.push($.__views.movieDetailPostersRow);
+    $.__views.movieDetailPosters = Ti.UI.createView({
+        width: "auto",
+        height: "100%",
+        left: 0,
+        id: "movieDetailPosters"
+    });
+    $.__views.movieDetailPostersRow.add($.__views.movieDetailPosters);
+    $.__views.movieDetailPostersTitle = Ti.UI.createLabel({
+        color: "#F5A623",
+        font: {
+            fontSize: 14,
+            fontWeight: "bold"
+        },
+        left: 15,
+        top: 14,
+        id: "movieDetailPostersTitle",
+        text: "Posters"
+    });
+    $.__views.movieDetailPosters.add($.__views.movieDetailPostersTitle);
+    $.__views.movieDetailPostersScrollView = Ti.UI.createScrollView({
+        width: "auto",
+        height: 174,
+        layout: "horizontal",
+        left: 5,
+        top: 34,
+        backgroundColor: "transparent",
+        id: "movieDetailPostersScrollView"
+    });
+    $.__views.movieDetailPosters.add($.__views.movieDetailPostersScrollView);
     $.__views.movieDetailTable = Ti.UI.createTableView({
         backgroundColor: "transparent",
         separatorColor: "#979797",
@@ -349,6 +410,7 @@ function Controller() {
     $.__views.movieDetailWin.add($.__views.movieDetailTable);
     $.__views.tmpNav = Ti.UI.iOS.createNavigationWindow({
         backgroundColor: "#4A4A4A",
+        width: "100%",
         top: "100%",
         window: $.__views.movieDetailWin,
         id: "tmpNav"
@@ -360,12 +422,11 @@ function Controller() {
     var movieDetailCollection = Alloy.Collections.instance("movieDetail");
     var movieDetailTrailersController = null;
     var movieDetailCastsController = null;
+    var movieDetailPostersController = null;
+    $.tmpNav.height = Ti.Platform.displayCaps.platformHeight - 69;
     Ti.App.addEventListener("hot:movie:prepare:open", function(param) {
         var id = param.id;
-        if (movieDetailCollection.get(id)) {
-            renderMovieDetail(movieDetailCollection.get(id));
-            renderMovieDetailTrailers(movieDetailCollection.get(id).getTrailerUrl());
-        } else {
+        if (movieDetailCollection.get(id)) renderMovieDetail(movieDetailCollection.get(id)); else {
             var movieDetailModel = Alloy.createModel("movieDetail", {
                 id: id
             });
@@ -383,7 +444,9 @@ function Controller() {
                 }, function(err) {
                     alert("get cast error " + err);
                 });
-                self.getPosters(function() {}, function(err) {
+                self.getPosters(function() {
+                    renderMovieDetailPosters(self.getPosterPath());
+                }, function(err) {
                     alert("get posters error " + err);
                 });
             }, function(err) {

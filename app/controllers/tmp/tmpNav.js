@@ -1,10 +1,14 @@
 var args = arguments[0] || {};
+
 // Models
 var movieDetailCollection = Alloy.Collections.instance('movieDetail');
 
 // Controllers
 var movieDetailTrailersController = null;
 var movieDetailCastsController = null;
+var movieDetailPostersController = null;
+
+$.tmpNav.height = Ti.Platform.displayCaps.platformHeight - 69;
 
 function createMovieDetailOverview() {
 	
@@ -88,6 +92,7 @@ function createMovieDetailOverviewContentShowMoreButton() {
 }
 
 function expandMovieDetailOverviewContent( movieDetailOverviewHeight ) {
+	
 	var movieDetailOverview = $.movieDetailHeader.children[1];
 	var movieDetailOverviewContent = movieDetailOverview.children[1];
 	var movieDetailOverviewContentShowMoreButton = movieDetailOverview.children[2];
@@ -106,6 +111,7 @@ function expandMovieDetailOverviewContent( movieDetailOverviewHeight ) {
 			movieDetailOverviewContentShowMoreButton.hide();
 		}
 	}
+	
 }
 
 function renderMovieDetailTrailers( trailersUrl ) {
@@ -154,6 +160,30 @@ function renderMovieDetailCasts( model ) {
 	}
 }
 
+function renderMovieDetailPosters( postersUrl ) {
+	
+	var views = [];
+	movieDetailPostersController = [];
+	
+	if ( postersUrl && _.isArray( postersUrl ) ) {
+					
+		_.each(postersUrl, function( url ) {
+						
+			var _movieDetailPosterController = Alloy.createController('tmp/hot/poster', {
+				url: url,
+				win: $.movieDetailWin,
+				view: $.movieDetailTable
+			});
+						
+			views.push( _movieDetailPosterController.getView() );
+			movieDetailPostersController.push( _movieDetailPosterController ); 
+						
+		});
+		
+		$.movieDetailPostersScrollView.add( views );			
+	}
+}
+
 function renderMovieDetail( model ) {
 
 	var movieDetailOverview = createMovieDetailOverview();
@@ -171,7 +201,7 @@ function renderMovieDetail( model ) {
 	$.movieDetailHeader.add( movieDetailOverview );
 	
 	// render $.movieDetailRating
-	$.movieDetailRatingNumber.setText( model.get('vote_average') );
+	$.movieDetailRatingNumber.setText( parseFloat( model.get('vote_average') ).toFixed( 1 ) );
 	
 	
 	/*[IMPORTANT]
@@ -255,12 +285,18 @@ function destoryMovieDetail() {
 		controller.destroy();
 	});
 	
+	$.movieDetailPostersScrollView.removeAllChildren();
+	_.each(movieDetailPostersController, function( controller ) {
+		controller.destroy();
+	});
+	
 	movieDetailTrailersController = null;
 	movieDetailCastsController = null;
+	movieDetailPostersController = null;
 }
 
 Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
-	
+		
 	var id = param.id;
 
 	if ( ! movieDetailCollection.get( id ) ) {
@@ -302,6 +338,8 @@ Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
 
 			self.getPosters(
 			function() { // 1.3. get poster of the movie
+				
+				renderMovieDetailPosters( self.getPosterPath() );
 			
 			}, function( err ) {
 			
@@ -317,7 +355,7 @@ Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
 	} else {
 
 		renderMovieDetail( movieDetailCollection.get( id ) );
-		renderMovieDetailTrailers( movieDetailCollection.get( id ).getTrailerUrl() );
+		// renderMovieDetailTrailers( movieDetailCollection.get( id ).getTrailerUrl() );
 
 	}
 		

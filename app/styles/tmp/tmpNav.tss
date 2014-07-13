@@ -1,6 +1,7 @@
 
 "#tmpNav": {
     backgroundColor: '#4A4A4A',
+    width: "100%",
     top: "100%"
 }
 
@@ -28,6 +29,10 @@
 "#movieDetailTable": {
 	backgroundColor: "transparent",
 	separatorColor: "#979797"
+}
+
+"TableViewRow": {
+	selectedBackgroundColor: 'transparent'
 }
 
 "#movieDetailHeaderRow": {
@@ -106,7 +111,7 @@
 	width: "auto",
 	height: 113,
 	layout: "horizontal",
-	left: 10,
+	left: 8,
 	top: 30,
 	backgroundColor: "transparent"
 }
@@ -138,5 +143,35 @@
 	layout: "horizontal",
 	left: 5,
 	top: 25,
+	backgroundColor: "transparent"
+}
+
+"#movieDetailPostersRow": {
+	width: "100%",
+	height: 216
+}
+
+"#movieDetailPosters": {
+	width: "auto",
+	height: "100%",
+	left: 0
+}
+
+"#movieDetailPostersTitle": {
+	color: "#F5A623",
+	font: {
+		fontSize: 14,
+		fontWeight: "bold"
+	},
+	left: 15,
+	top: 14
+}
+
+"#movieDetailPostersScrollView": {
+	width: "auto",
+	height: 174,
+	layout: "horizontal",
+	left: 5,
+	top: 34,
 	backgroundColor: "transparent"
 }

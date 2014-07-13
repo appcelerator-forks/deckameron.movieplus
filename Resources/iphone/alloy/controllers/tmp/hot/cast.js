@@ -37,9 +37,10 @@ function Controller() {
     });
     $.__views.movieDetailCastAvatarWrapper.add($.__views.movieDetailCastAvatar);
     $.__views.movieDetailCastName = Ti.UI.createLabel({
-        width: "auto",
-        height: "auto",
+        width: "100%",
+        height: 13,
         color: "white",
+        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
         font: {
             fontSize: 12
         },

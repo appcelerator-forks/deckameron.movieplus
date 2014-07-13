@@ -99,15 +99,15 @@ exports.definition = {
                     var posters = self.get("posters");
                     if (_.isArray(posters)) {
                         if (void 0 !== id && _.isNumber(id)) return posters[id] && posters[id].file_path ? theMovieDb.common.getImage({
-                            size: "w400",
+                            size: "w500",
                             file: posters[id].file_path
                         }) : null;
                         var folder = [];
                         _.each(posters, function(poster) {
                             if (poster && poster.file_path) {
                                 var file = theMovieDb.common.getImage({
-                                    size: "w400",
-                                    file: cast.file_path
+                                    size: "w500",
+                                    file: poster.file_path
                                 });
                                 folder.push(file);
                             }

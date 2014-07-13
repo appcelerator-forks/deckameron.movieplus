@@ -46,6 +46,15 @@
 					
 				</TableViewRow>
 				
+				<TableViewRow id="movieDetailPostersRow">
+					
+					<View id="movieDetailPosters">
+						<Label id="movieDetailPostersTitle" text="Posters"></Label>
+						<ScrollView id="movieDetailPostersScrollView"></ScrollView>
+					</View>
+					
+				</TableViewRow>
+				
 			</TableView>
 			
 		</Window>

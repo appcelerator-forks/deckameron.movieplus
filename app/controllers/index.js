@@ -74,7 +74,7 @@ Ti.App.addEventListener('hot:movie:open', function() {
 	setTimeout(function() {
     	Animator.animate(tmpNav, {
         	duration: 530,
-        	easing: Animator.QUINT_OUT,
+        	easing: Animator.EXP_OUT,
         	top: 70
     	});
 	}, 100);
@@ -83,7 +83,7 @@ Ti.App.addEventListener('hot:movie:open', function() {
     setTimeout(function() {
         Animator.animate(window, {
             duration: 630,
-            easing: Animator.QUINT_OUT,
+            easing: Animator.BACK_OUT,
             transform: winAnimation.animation.transform 
         });
     }, 60);
@@ -95,7 +95,7 @@ Ti.App.addEventListener('hot:movie:close', function() {
     Animator.animate(tmpNav, {
         duration: 530,
         easing: Animator.EXP_OUT,
-        top: 768
+        top: Ti.Platform.displayCaps.platformHeight
     });
     
     Fader.fadeOut( blurView, 330 );
