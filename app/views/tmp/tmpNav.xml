@@ -8,6 +8,10 @@
 				<Button id="movieDetailBtnClose"></Button>
 			</LeftNavButton>
 			
+			<View id="posterPreviewCover">
+				<ScrollableView id="posterPreview"></ScrollableView>
+			</View>
+			
 			<TableView id="movieDetailTable">
 				
 				<TableViewRow id="movieDetailHeaderRow">

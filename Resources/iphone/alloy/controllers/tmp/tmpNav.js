@@ -119,11 +119,11 @@ function Controller() {
         var views = [];
         movieDetailPostersController = [];
         if (postersUrl && _.isArray(postersUrl)) {
-            _.each(postersUrl, function(url) {
+            _.each(postersUrl, function(url, i) {
                 var _movieDetailPosterController = Alloy.createController("tmp/hot/poster", {
+                    id: i,
                     url: url,
-                    win: $.movieDetailWin,
-                    view: $.movieDetailTable
+                    previewCover: $.posterPreviewCover
                 });
                 views.push(_movieDetailPosterController.getView());
                 movieDetailPostersController.push(_movieDetailPosterController);
@@ -195,6 +195,16 @@ function Controller() {
         _.each(movieDetailPostersController, function(controller) {
             controller.destroy();
         });
+        _.each($.posterPreview.views, function(view) {
+            $.posterPreview.removeView(view);
+        });
+        $.posterPreview.removeAllChildren();
+        $.posterPreview.hide();
+        _.each($.posterPreviewCover.children, function(view) {
+            view !== $.posterPreview && $.posterPreviewCover.remove(view);
+        });
+        $.posterPreviewCover.backgroundColor = "transparent";
+        $.posterPreviewCover.hide();
         movieDetailTrailersController = null;
         movieDetailCastsController = null;
         movieDetailPostersController = null;
@@ -229,14 +239,32 @@ function Controller() {
         id: "movieDetailBtnClose"
     });
     $.__views.movieDetailWin.leftNavButton = $.__views.movieDetailBtnClose;
+    $.__views.posterPreviewCover = Ti.UI.createView({
+        width: "100%",
+        height: "100%",
+        backgroundColor: "4A4A4A",
+        zIndex: 20,
+        id: "posterPreviewCover"
+    });
+    $.__views.movieDetailWin.add($.__views.posterPreviewCover);
     var __alloyId19 = [];
+    $.__views.posterPreview = Ti.UI.createScrollableView({
+        showPagingControl: false,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "transparent",
+        views: __alloyId19,
+        id: "posterPreview"
+    });
+    $.__views.posterPreviewCover.add($.__views.posterPreview);
+    var __alloyId20 = [];
     $.__views.movieDetailHeaderRow = Ti.UI.createTableViewRow({
         selectedBackgroundColor: "transparent",
         width: "100%",
         height: "auto",
         id: "movieDetailHeaderRow"
     });
-    __alloyId19.push($.__views.movieDetailHeaderRow);
+    __alloyId20.push($.__views.movieDetailHeaderRow);
     $.__views.movieDetailHeader = Ti.UI.createView({
         width: "100%",
         height: "100%",
@@ -256,7 +284,7 @@ function Controller() {
         height: 50,
         id: "movieDetailRatingRow"
     });
-    __alloyId19.push($.__views.movieDetailRatingRow);
+    __alloyId20.push($.__views.movieDetailRatingRow);
     $.__views.movieDetailRating = Ti.UI.createView({
         width: "auto",
         height: "100%",
@@ -299,7 +327,7 @@ function Controller() {
         height: 154,
         id: "movieDetailTrailersRow"
     });
-    __alloyId19.push($.__views.movieDetailTrailersRow);
+    __alloyId20.push($.__views.movieDetailTrailersRow);
     $.__views.movieDetailTrailers = Ti.UI.createView({
         width: "auto",
         height: "100%",
@@ -335,7 +363,7 @@ function Controller() {
         height: 154,
         id: "movieDetailCastsRow"
     });
-    __alloyId19.push($.__views.movieDetailCastsRow);
+    __alloyId20.push($.__views.movieDetailCastsRow);
     $.__views.movieDetailCasts = Ti.UI.createView({
         width: "auto",
         height: "100%",
@@ -371,7 +399,7 @@ function Controller() {
         height: 216,
         id: "movieDetailPostersRow"
     });
-    __alloyId19.push($.__views.movieDetailPostersRow);
+    __alloyId20.push($.__views.movieDetailPostersRow);
     $.__views.movieDetailPosters = Ti.UI.createView({
         width: "auto",
         height: "100%",
@@ -404,7 +432,7 @@ function Controller() {
     $.__views.movieDetailTable = Ti.UI.createTableView({
         backgroundColor: "transparent",
         separatorColor: "#979797",
-        data: __alloyId19,
+        data: __alloyId20,
         id: "movieDetailTable"
     });
     $.__views.movieDetailWin.add($.__views.movieDetailTable);
@@ -424,6 +452,8 @@ function Controller() {
     var movieDetailCastsController = null;
     var movieDetailPostersController = null;
     $.tmpNav.height = Ti.Platform.displayCaps.platformHeight - 69;
+    $.posterPreview.hide();
+    $.posterPreviewCover.hide();
     Ti.App.addEventListener("hot:movie:prepare:open", function(param) {
         var id = param.id;
         if (movieDetailCollection.get(id)) renderMovieDetail(movieDetailCollection.get(id)); else {

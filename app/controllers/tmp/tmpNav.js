@@ -9,6 +9,8 @@ var movieDetailCastsController = null;
 var movieDetailPostersController = null;
 
 $.tmpNav.height = Ti.Platform.displayCaps.platformHeight - 69;
+$.posterPreview.hide();
+$.posterPreviewCover.hide();
 
 function createMovieDetailOverview() {
 	
@@ -167,12 +169,12 @@ function renderMovieDetailPosters( postersUrl ) {
 	
 	if ( postersUrl && _.isArray( postersUrl ) ) {
 					
-		_.each(postersUrl, function( url ) {
+		_.each(postersUrl, function( url, i ) {
 						
 			var _movieDetailPosterController = Alloy.createController('tmp/hot/poster', {
+				id: i,
 				url: url,
-				win: $.movieDetailWin,
-				view: $.movieDetailTable
+				previewCover: $.posterPreviewCover
 			});
 						
 			views.push( _movieDetailPosterController.getView() );
@@ -289,6 +291,18 @@ function destoryMovieDetail() {
 	_.each(movieDetailPostersController, function( controller ) {
 		controller.destroy();
 	});
+	
+	_.each($.posterPreview.views, function( view ) {
+		$.posterPreview.removeView( view );
+	});
+	$.posterPreview.removeAllChildren();
+	$.posterPreview.hide();
+	
+	_.each($.posterPreviewCover.children, function( view ) {
+		if ( view !== $.posterPreview ) $.posterPreviewCover.remove( view );
+	});
+	$.posterPreviewCover.backgroundColor = "transparent";
+	$.posterPreviewCover.hide();
 	
 	movieDetailTrailersController = null;
 	movieDetailCastsController = null;
