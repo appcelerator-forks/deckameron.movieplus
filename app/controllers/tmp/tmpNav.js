@@ -40,7 +40,6 @@ var movieDetailBtnClosePosterPreview = Ti.UI.createButton({
 $.movieDetailWin.setLeftNavButton( movieDetailBtnClose );
 
 $.tmpNav.height = Ti.Platform.displayCaps.platformHeight - 69;
-$.posterPreview.hide();
 $.posterPreviewCover.hide();
 
 function createMovieDetailOverview() {
@@ -74,6 +73,16 @@ function createMovieDetailOverview() {
 	});
 
 }
+
+
+function posterPreviewScrollingCallback( e ) {
+	
+	$.movieDetailWin.title = ( e.currentPage + 1 ) + ' / ' + e.source.views.length;
+
+	calcPostersScrollViewPosBasedOnPreviewerCurrentPage( e.source );;
+	
+}
+
 
 function createMovieDetailOverviewTitle() {
 	
@@ -169,6 +178,7 @@ function renderMovieDetailTrailers( trailersUrl ) {
 	}
 }
 
+
 function renderMovieDetailCasts( model ) {
 	
 	var views = [];
@@ -193,12 +203,26 @@ function renderMovieDetailCasts( model ) {
 	}
 }
 
+
 function renderMovieDetailPosters( postersUrl ) {
-	
+
 	var views = [];
 	movieDetailPostersController = [];
 	
 	if ( postersUrl && _.isArray( postersUrl ) ) {
+		
+		var posterPreview = Ti.UI.createScrollableView({
+			showPagingControl: false,
+			width: "100%",
+			height: "100%",
+			backgroundColor: "transparent"
+		});
+		
+		posterPreview.hide();
+		
+		$.posterPreviewCover.add( posterPreview );
+		
+		posterPreview.addEventListener('scroll', posterPreviewScrollingCallback);
 					
 		_.each(postersUrl, function( url, i ) {
 						
@@ -207,7 +231,7 @@ function renderMovieDetailPosters( postersUrl ) {
 				url: url,
 				previewCover: $.posterPreviewCover
 			});
-						
+			
 			views.push( _movieDetailPosterController.getView() );
 			movieDetailPostersController.push( _movieDetailPosterController ); 
 						
@@ -291,23 +315,23 @@ function renderMovieDetail( model ) {
 }
 
 
-function calcPostersScrollViewPosBasedOnPreviewerCurrentPage() {
+function calcPostersScrollViewPosBasedOnPreviewerCurrentPage( posterPreview ) {
 	
 	if ( 0 === currentPoster.area ) {
 		
-		if ( currentPoster.page === $.posterPreview.currentPage ) {
+		if ( currentPoster.page === posterPreview.currentPage ) {
 
 			$.movieDetailPostersScrollView.scrollTo( currentPoster.page * 120, 0 );
 			// set backpoint
 			posterBackFrame.left = 15;
 			
-		} else if ( ( currentPoster.page + 1 ) === $.posterPreview.currentPage ) {
+		} else if ( ( currentPoster.page + 1 ) === posterPreview.currentPage ) {
 			
 			$.movieDetailPostersScrollView.scrollTo( currentPoster.page * 120 + 20, 0 );
 			// set backpoint
 			posterBackFrame.left = 115;
 			
-		} else if ( ( currentPoster.page + 2 ) === $.posterPreview.currentPage ) {
+		} else if ( ( currentPoster.page + 2 ) === posterPreview.currentPage ) {
 			
 			$.movieDetailPostersScrollView.scrollTo( currentPoster.page * 120 + 40, 0 );
 			// set backpoint
@@ -315,27 +339,43 @@ function calcPostersScrollViewPosBasedOnPreviewerCurrentPage() {
 
 		} else {
 			
-			$.movieDetailPostersScrollView.scrollTo( $.posterPreview.currentPage * 120, 0 );
-			// set backpoint
-			posterBackFrame.left = 15;
+			if ( posterPreview.currentPage === posterPreview.views.length - 1 ) {
+				
+				$.movieDetailPostersScrollView.scrollTo( ( posterPreview.currentPage - 2 ) * 120 + 40, 0 );
+				// set backpoint
+				posterBackFrame.left = 215;
 
+			} else if ( posterPreview.currentPage === posterPreview.views.length - 2 ) {
+				
+				$.movieDetailPostersScrollView.scrollTo( ( posterPreview.currentPage - 1 ) * 120 + 20, 0 );
+				// set backpoint
+				posterBackFrame.left = 115;
+
+			} else {
+				
+				$.movieDetailPostersScrollView.scrollTo( posterPreview.currentPage * 120 , 0 );
+				// set backpoint
+				posterBackFrame.left = 15;
+
+			}
+ 
 		}
 		
 	} else if ( 1 === currentPoster.area ) {
 		
-		if ( currentPoster.page === $.posterPreview.currentPage ) {
+		if ( currentPoster.page === posterPreview.currentPage ) {
 			
 			$.movieDetailPostersScrollView.scrollTo( ( currentPoster.page - 1 ) * 120 + 20, 0 );
 			// set backpoint
 			posterBackFrame.left = 115;
 
-		} else if ( ( currentPoster.page + 1 ) === $.posterPreview.currentPage ) {
+		} else if ( ( currentPoster.page + 1 ) === posterPreview.currentPage ) {
 			
 			$.movieDetailPostersScrollView.scrollTo( ( currentPoster.page - 1 ) * 120 + 40, 0 );
 			// set backpoint
 			posterBackFrame.left = 215;
 			
-		} else if ( ( currentPoster.page - 1 ) === $.posterPreview.currentPage ) {
+		} else if ( ( currentPoster.page - 1 ) === posterPreview.currentPage ) {
 			
 			$.movieDetailPostersScrollView.scrollTo( ( currentPoster.page - 1 ) * 120, 0 );
 			// set backpoint
@@ -343,27 +383,43 @@ function calcPostersScrollViewPosBasedOnPreviewerCurrentPage() {
 
 		} else {
 			
-			$.movieDetailPostersScrollView.scrollTo( $.posterPreview.currentPage * 120, 0 );
-			// set backpoint
-			posterBackFrame.left = 15;
+			if ( posterPreview.currentPage === posterPreview.views.length - 1 ) {
+				
+				$.movieDetailPostersScrollView.scrollTo( ( posterPreview.currentPage - 2 ) * 120 + 40, 0 );
+				// set backpoint
+				posterBackFrame.left = 215;
+
+			} else if ( posterPreview.currentPage === posterPreview.views.length - 2 ) {
+				
+				$.movieDetailPostersScrollView.scrollTo( ( posterPreview.currentPage - 1 ) * 120 + 20, 0 );
+				// set backpoint
+				posterBackFrame.left = 115;
+
+			} else {
+				
+				$.movieDetailPostersScrollView.scrollTo( posterPreview.currentPage * 120 , 0 );
+				// set backpoint
+				posterBackFrame.left = 15;
+
+			}
 
 		}
 		
 	} else if ( 2 === currentPoster.area ) {
 
-		if ( currentPoster.page === $.posterPreview.currentPage ) {
+		if ( currentPoster.page === posterPreview.currentPage ) {
 
 			$.movieDetailPostersScrollView.scrollTo( ( currentPoster.page - 2 ) * 120 + 40, 0 );
 			// set backpoint
 			posterBackFrame.left = 215;
 			
-		} else if ( ( currentPoster.page - 1 ) === $.posterPreview.currentPage ) {
+		} else if ( ( currentPoster.page - 1 ) === posterPreview.currentPage ) {
 			
 			$.movieDetailPostersScrollView.scrollTo( ( currentPoster.page - 2 ) * 120 + 20, 0 );
 			// set backpoint
 			posterBackFrame.left = 115;
 			
-		} else if ( ( currentPoster.page - 2 ) === $.posterPreview.currentPage ) {
+		} else if ( ( currentPoster.page - 2 ) === posterPreview.currentPage ) {
 			
 			$.movieDetailPostersScrollView.scrollTo( ( currentPoster.page - 2 ) * 120, 0 );
 			// set backpoint
@@ -371,17 +427,49 @@ function calcPostersScrollViewPosBasedOnPreviewerCurrentPage() {
 
 		} else {
 			
-			$.movieDetailPostersScrollView.scrollTo( $.posterPreview.currentPage * 120, 0 );
-			// set backpoint
-			posterBackFrame.left = 15;
+			if ( posterPreview.currentPage === posterPreview.views.length - 1 ) {
+				
+				$.movieDetailPostersScrollView.scrollTo( ( posterPreview.currentPage - 2 ) * 120 + 40, 0 );
+				// set backpoint
+				posterBackFrame.left = 215;
+
+			} else if ( posterPreview.currentPage === posterPreview.views.length - 2 ) {
+				
+				$.movieDetailPostersScrollView.scrollTo( ( posterPreview.currentPage - 1 ) * 120 + 20, 0 );
+				// set backpoint
+				posterBackFrame.left = 115;
+
+			} else {
+				
+				$.movieDetailPostersScrollView.scrollTo( posterPreview.currentPage * 120 , 0 );
+				// set backpoint
+				posterBackFrame.left = 15;
+
+			}
 
 		}
 		
 	} else {
 
-			$.movieDetailPostersScrollView.scrollTo( $.posterPreview.currentPage * 120, 0 );
-			// set backpoint
-			posterBackFrame.left = 15;
+			if ( posterPreview.currentPage === posterPreview.views.length - 1 ) {
+				
+				$.movieDetailPostersScrollView.scrollTo( ( posterPreview.currentPage - 2 ) * 120 + 40, 0 );
+				// set backpoint
+				posterBackFrame.left = 215;
+
+			} else if ( posterPreview.currentPage === posterPreview.views.length - 2 ) {
+				
+				$.movieDetailPostersScrollView.scrollTo( ( posterPreview.currentPage - 1 ) * 120 + 20, 0 );
+				// set backpoint
+				posterBackFrame.left = 115;
+
+			} else {
+				
+				$.movieDetailPostersScrollView.scrollTo( posterPreview.currentPage * 120 , 0 );
+				// set backpoint
+				posterBackFrame.left = 15;
+
+			}
 		
 	}
 
@@ -427,21 +515,22 @@ function destoryMovieDetail() {
 		controller.destroy();
 	});
 	
-	_.each($.posterPreview.views, function( view ) {
-		$.posterPreview.removeView( view );
+	var posterPreview = $.posterPreviewCover.children[0];
+	_.each(posterPreview.views, function( view ) {
+		posterPreview.removeView( view );
 	});
-	$.posterPreview.removeAllChildren();
-	$.posterPreview.hide();
+	posterPreview.removeEventListener('scroll', posterPreviewScrollingCallback);
 	
-	_.each($.posterPreviewCover.children, function( view ) {
-		if ( view !== $.posterPreview ) $.posterPreviewCover.remove( view );
-	});
+	$.posterPreviewCover.removeAllChildren();
 	$.posterPreviewCover.backgroundColor = "transparent";
 	$.posterPreviewCover.hide();
+
+	$.movieDetailWin.setLeftNavButton( movieDetailBtnClose );
 	
 	movieDetailTrailersController = null;
 	movieDetailCastsController = null;
 	movieDetailPostersController = null;
+	posterPreview = null;
 }
 
 Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
@@ -493,6 +582,7 @@ Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
 			}, function( err ) {
 			
 				alert( "get posters error " + err );
+
 			});
 			
 		}, function( err ) {
@@ -513,7 +603,8 @@ Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
 
 Ti.App.addEventListener('hot:movie:open:poster:preview', function( e ) {
 
-	currentPoster.page = $.posterPreview.getCurrentPage();
+	var posterPreview = $.posterPreviewCover.children[0];
+	currentPoster.page = posterPreview.getCurrentPage();
 	currentPoster.area = e.area;
 	
 	Fader.fadeOut( movieDetailBtnClose, 300, function() {
@@ -526,23 +617,16 @@ Ti.App.addEventListener('hot:movie:open:poster:preview', function( e ) {
 
 	});
 	
-	$.movieDetailWin.title = ( currentPoster.page + 1 ) + ' / ' + $.posterPreview.views.length;
+	$.movieDetailWin.title = ( currentPoster.page + 1 ) + ' / ' + posterPreview.views.length;
 	
-	calcPostersScrollViewPosBasedOnPreviewerCurrentPage();
-
-});
-
-
-$.posterPreview.addEventListener('scroll', function() {
-
-	$.movieDetailWin.title = ( $.posterPreview.getCurrentPage() + 1 ) + ' / ' + $.posterPreview.views.length;
-
-	calcPostersScrollViewPosBasedOnPreviewerCurrentPage();
+	calcPostersScrollViewPosBasedOnPreviewerCurrentPage( posterPreview );
 
 });
 
 
 movieDetailBtnClosePosterPreview.addEventListener('touchend', function() {
+
+	var posterPreview = $.posterPreviewCover.children[0];
 
 	Fader.fadeOut( movieDetailBtnClosePosterPreview, 300, function() {
 		$.movieDetailWin.setLeftNavButton( movieDetailBtnClose );
@@ -553,9 +637,9 @@ movieDetailBtnClosePosterPreview.addEventListener('touchend', function() {
 	
 	$.movieDetailWin.title = movieDetailCollection.get( id ).get('title');
 
-	var tmp = Ti.UI.createView( _.clone( $.posterPreview.views[ parseInt( $.posterPreview.getCurrentPage() ) ] ) );
+	var tmp = Ti.UI.createView( _.clone( posterPreview.views[ parseInt( posterPreview.getCurrentPage() ) ] ) );
 	$.posterPreviewCover.add( tmp );
-	$.posterPreview.hide();
+	posterPreview.hide();
 
 	Animator.animate($.posterPreviewCover, {
         duration: 280,

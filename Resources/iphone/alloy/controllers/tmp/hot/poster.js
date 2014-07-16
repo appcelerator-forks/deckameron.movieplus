@@ -65,8 +65,8 @@ function Controller() {
                 x: view.rect.x,
                 y: view.rect.y
             }, preview);
-            previewPoint.start.x = parseInt(startPoint.x);
-            previewPoint.start.y = parseInt(startPoint.y);
+            previewPoint.start.x = parseInt(startPoint.x) - offset.x;
+            previewPoint.start.y = parseInt(startPoint.y) - offset.y;
             previewPoint.end = calcPosterPreviewPosAndSize(view.image);
         }
         return previewPoint;
@@ -105,6 +105,10 @@ function Controller() {
     var Animator = require("com.animecyc.animator");
     var previewCover = args.previewCover, preview = previewCover.children[0];
     var fullHeight = previewCover.rect.height;
+    var offset = {
+        x: 10,
+        y: 12
+    };
     self._id = parseInt(args.id);
     self.movieDetailPoster.image = args.url;
     var frame = calcPosterPreviewPosAndSize(args.url);
@@ -118,19 +122,15 @@ function Controller() {
     });
     preview.addView(poster);
     self.movieDetailPoster.addEventListener("touchend", function(e) {
-        var previewPoint = convertPosterThumbnailToPreview(e.source, previewCover);
+        var previewFrame = convertPosterThumbnailToPreview(e.source, previewCover);
+        var area = -1;
         var copyImg = Ti.UI.createView({
             backgroundImage: e.source.image,
-            width: previewPoint.start.width,
-            height: previewPoint.start.height,
-            left: previewPoint.start.x,
-            top: previewPoint.start.y,
+            width: previewFrame.start.width,
+            height: previewFrame.start.height,
+            left: previewFrame.start.x,
+            top: previewFrame.start.y,
             zIndex: 30
-        });
-        Ti.UI.createView({
-            backgroundImage: "Default.png",
-            width: "100%",
-            height: "100%"
         });
         preview.setCurrentPage(self._id);
         previewCover.show();
@@ -143,13 +143,17 @@ function Controller() {
         Animator.animate(copyImg, {
             duration: 400,
             easing: Animator.EXP_OUT,
-            width: previewPoint.end.width,
-            height: previewPoint.end.height,
-            left: previewPoint.end.x,
-            top: previewPoint.end.y
+            width: previewFrame.end.width,
+            height: previewFrame.end.height,
+            left: previewFrame.end.x,
+            top: previewFrame.end.y
         }, function() {
             preview.show();
             previewCover.remove(copyImg);
+        });
+        60 > previewFrame.start.x ? area = 0 : previewFrame.start.x > 60 && 200 > previewFrame.start.x ? area = 1 : previewFrame.start.x > 200 && (area = 2);
+        Ti.App.fireEvent("hot:movie:open:poster:preview", {
+            area: area
         });
     });
     _.extend($, exports);
