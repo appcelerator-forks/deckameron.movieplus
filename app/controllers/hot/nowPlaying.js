@@ -1,5 +1,5 @@
 var args = arguments[0] || {};
-
+var collectionView;
 var Blur = require('bencoding.blur');
 var nowPlayingCollection = Alloy.Collections.instance('nowPlaying');
 
@@ -52,37 +52,17 @@ function layoutCircleView( xOffset ) {
 }
 
 function addPosters( collection ) {
-	var posters = [];
+	//var posters = [];
 
 	if ( collection.length ) {
 		collection.each(function( model ) {
-			if ( ! model.get('isShown') ) {
-				var posterRow = Ti.UI.createView({
-					width: 65,
-					height: 92
-				});
-				var poster = Ti.UI.createImageView({
-					image: model.getPoster(),
-					width: 57,
-					height: 84,
-					shadow: {
-						shadowOpacity: 0.6,
-						shadowRadius: 2,
-						shadowOffset: {
-							x: 0,
-							y: 0
-						}
-					}
-				});
-			
-				posterRow.add( poster );
-				posters.push( posterRow );
-				model.set( 'isShown', true );
-			}
+			//if ( ! model.get('isShown') ) {
+				collectionView.addItem(model.getPoster());
+			//}
 		});
 		
-		if ( posters.length ) $.postersWheel.add( posters );
-		$.postersWheel.setDecelerationRate( Titanium.UI.iOS.SCROLL_DECELERATION_RATE_FAST );
+		//if ( posters.length ) $.postersWheel.add( posters );
+		//$.postersWheel.setDecelerationRate( Titanium.UI.iOS.SCROLL_DECELERATION_RATE_FAST );
 
 		isReachTail = true;
 	}
@@ -91,7 +71,7 @@ function addPosters( collection ) {
 function initialize() {
 	
 	// decelerate scroll speed.
-	$.postersWheel.setDecelerationRate( Titanium.UI.iOS.SCROLL_DECELERATION_RATE_FAST );
+	//$.postersWheel.setDecelerationRate( Titanium.UI.iOS.SCROLL_DECELERATION_RATE_FAST );
 
 	nowPlayingCollection.getList(
 	page,
@@ -105,69 +85,16 @@ function initialize() {
 		$.content.add( nowPlayingPoster.getView() );
 
 		addPosters( this );
-		layoutCircleView( 0 );
+		//layoutCircleView( 0 );
 		
 	}, function( err ) { /* error */
 		
 		alert( err );
 
 	});
-
+	var circleMenu = require("cn.ld.circlemenu");
+	
+	collectionView = circleMenu.createView();
+	$.postersWheel.add(collectionView);
 }
-
-$.postersWheel.addEventListener('scroll', function(e) {
-	var self = this;
-	
-	if ( ( skip >= ( nowPlayingCollection.length - 5 ) ) && isReachTail ) {
-
-		isReachTail = false;
-		
-		nowPlayingCollection.getList(
-		++page,
-		function() {
-
-			fetchingCompleted = true;
-			
-		}, function( err ) {
-			
-			alert( err );
-
-		});
-	}
-
-	layoutCircleView( e.source.contentOffset.x );
-
-});
-
-$.postersWheel.addEventListener('scrollend', function( e ) {
-	
-	var self = this;
-	
-	if ( fetchingCompleted ) {
-		fetchingCompleted = false;
-		addPosters( nowPlayingCollection );
-	}
-	
-	var n = Math.floor(e.source.contentOffset.x / 65);
-	var delta = e.source.contentOffset.x - n * 65;
-	if ( 0 === delta ) return;
-	if ( delta > 32.5 )
-		$.postersWheel.scrollTo( e.source.contentOffset.x + 65 - delta, 0 );
-	else
-		$.postersWheel.scrollTo( e.source.contentOffset.x - delta, 0 );
-});
-
-$.postersWheel.addEventListener('dragend', function( e ) {
-
-	if ( false === e.decelerate ) {
-	var n = Math.floor(e.source.contentOffset.x / 65);
-	var delta = e.source.contentOffset.x - n * 65;
-	if ( 0 === delta ) return;
-	if ( delta > 32.5 )
-		$.postersWheel.scrollTo( e.source.contentOffset.x + 65 - delta, 0 );
-	else
-		$.postersWheel.scrollTo( e.source.contentOffset.x - delta, 0 );
-	}
-});
-
 exports.initialize = initialize;

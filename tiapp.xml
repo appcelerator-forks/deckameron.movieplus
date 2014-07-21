@@ -48,11 +48,12 @@
         <theme>default</theme>
     </mobileweb>
     <modules>
+        <module platform="iphone">ti.viewshadow</module>
+        <module platform="iphone">dk.napp.ui</module>
+        <module platform="iphone">dk.napp.slidemenu</module>
         <module platform="iphone">bencoding.blur</module>
         <module platform="iphone">com.animecyc.animator</module>
-        <module platform="iphone">dk.napp.slidemenu</module>
-        <module platform="iphone">dk.napp.ui</module>
-        <module platform="iphone">ti.viewshadow</module>
+        <module platform="iphone" version="1.0.0.0">cn.ld.circlemenu</module>
     </modules>
     <deployment-targets>
         <target device="android">false</target>

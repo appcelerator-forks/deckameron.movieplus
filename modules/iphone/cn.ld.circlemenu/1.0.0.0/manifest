@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.0.0.0
+apiversion: 2
+description: circle menu
+author: logicdesign Co., Ltd.
+license: 12323u9u9u9023432
+copyright: Logicdesign (c) 2014.
+
+
+# these should not be edited
+name: circlemenu
+moduleid: cn.ld.circlemenu
+guid: 822c5cb7-284f-470a-aa8d-b41e4f3ea392
+platform: iphone
+minsdk: 3.2.3.GA
