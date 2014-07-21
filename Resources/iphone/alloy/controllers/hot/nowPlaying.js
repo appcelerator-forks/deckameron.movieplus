@@ -1,11 +1,10 @@
 function Controller() {
     function addPosters(collection) {
-        if (collection.length) {
-            collection.each(function(model) {
-                collectionView.addItem(model.getPoster());
-            });
-            isReachTail = true;
-        }
+        collection.length && collection.each(function(model) {
+            var poster = model.getSmallPoster();
+            poster = poster || "default.png";
+            collectionView.addItem(poster);
+        });
     }
     function initialize() {
         nowPlayingCollection.getList(page, function() {
@@ -14,7 +13,10 @@ function Controller() {
                 posterImage: posterImage
             });
             $.content.add(nowPlayingPoster.getView());
-            addPosters(this);
+            var self = this;
+            setTimeout(function() {
+                addPosters(self);
+            }, 50);
         }, function(err) {
             alert(err);
         });
@@ -115,10 +117,7 @@ function Controller() {
     var collectionView;
     require("bencoding.blur");
     var nowPlayingCollection = Alloy.Collections.instance("nowPlaying");
-    Math.PI / 16;
-    var isReachTail = false;
     var page = 1;
-    Ti.UI.create3DMatrix();
     exports.initialize = initialize;
     _.extend($, exports);
 }

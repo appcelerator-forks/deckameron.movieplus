@@ -27,6 +27,17 @@ exports.definition = {
 					return null;
 				}
 				
+			},
+			getSmallPoster:function(){
+				var self = this;
+				if ( self.has('poster_path') && null !== self.get('poster_path') ) {
+					return theMovieDb.common.getImage({ 
+						size: 'w154',
+						file: self.get('poster_path')
+					});
+				} else {
+					return null;
+				}
 			}
 		});
 

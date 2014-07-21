@@ -18,6 +18,13 @@ exports.definition = {
                     size: "w500",
                     file: self.get("poster_path")
                 }) : null;
+            },
+            getSmallPoster: function() {
+                var self = this;
+                return self.has("poster_path") && null !== self.get("poster_path") ? theMovieDb.common.getImage({
+                    size: "w154",
+                    file: self.get("poster_path")
+                }) : null;
             }
         });
         return Model;
