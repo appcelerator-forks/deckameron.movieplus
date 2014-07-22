@@ -1,3 +1,12 @@
+function __processArg(obj, key) {
+    var arg = null;
+    if (obj) {
+        arg = obj[key] || null;
+        delete obj[key];
+    }
+    return arg;
+}
+
 function Controller() {
     function calcImageHeightWithFullscreenWidth(width, height) {
         return parseInt(Ti.Platform.displayCaps.platformWidth) / parseInt(width) * height;
@@ -73,14 +82,22 @@ function Controller() {
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "tmp/hot/poster";
-    arguments[0] ? arguments[0]["__parentSymbol"] : null;
-    arguments[0] ? arguments[0]["$model"] : null;
-    arguments[0] ? arguments[0]["__itemTemplate"] : null;
+    if (arguments[0]) {
+        __processArg(arguments[0], "__parentSymbol");
+        __processArg(arguments[0], "$model");
+        __processArg(arguments[0], "__itemTemplate");
+    }
     var $ = this;
     var exports = {};
     $.__views.movieDetailPosterWrapper = Ti.UI.createView({
         width: 120,
         height: 174,
+        id: "movieDetailPosterWrapper"
+    });
+    $.__views.movieDetailPosterWrapper && $.addTopLevelView($.__views.movieDetailPosterWrapper);
+    $.__views.movieDetailPoster = Ti.UI.createImageView({
+        width: 100,
+        height: 150,
         shadow: {
             shadowOpacity: .35,
             shadowRadius: 5,
@@ -89,12 +106,6 @@ function Controller() {
                 y: 0
             }
         },
-        id: "movieDetailPosterWrapper"
-    });
-    $.__views.movieDetailPosterWrapper && $.addTopLevelView($.__views.movieDetailPosterWrapper);
-    $.__views.movieDetailPoster = Ti.UI.createImageView({
-        width: 100,
-        height: 150,
         id: "movieDetailPoster"
     });
     $.__views.movieDetailPosterWrapper.add($.__views.movieDetailPoster);
@@ -125,12 +136,12 @@ function Controller() {
         var previewFrame = convertPosterThumbnailToPreview(e.source, previewCover);
         var area = -1;
         var copyImg = Ti.UI.createView({
-            backgroundImage: e.source.image,
             width: previewFrame.start.width,
             height: previewFrame.start.height,
             left: previewFrame.start.x,
             top: previewFrame.start.y,
-            zIndex: 30
+            zIndex: 30,
+            backgroundImage: e.source.image
         });
         preview.setCurrentPage(self._id);
         previewCover.show();
@@ -153,7 +164,8 @@ function Controller() {
         });
         60 > previewFrame.start.x ? area = 0 : previewFrame.start.x > 60 && 200 > previewFrame.start.x ? area = 1 : previewFrame.start.x > 200 && (area = 2);
         Ti.App.fireEvent("hot:movie:open:poster:preview", {
-            area: area
+            area: area,
+            top: previewFrame.start.y
         });
     });
     _.extend($, exports);

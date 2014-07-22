@@ -11,7 +11,7 @@
 
     	<View id="content"></View>
 
-    	<View id="postersWheel"></View>
+    	<ScrollView id="postersWheel"></ScrollView>
 
 	</View>
 

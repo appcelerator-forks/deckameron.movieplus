@@ -13,6 +13,9 @@
 // custom array insert methods.
 // ported from http://stackoverflow.com/questions/586182/insert-item-into-array-at-a-specific-index.
 // really cool.
+
+require('com.logicdesign.TiParallaxTableViewHeader');
+
 Array.prototype.insert = function( index ) {
 	index = Math.min( index, this.length );
 	arguments.length > 1

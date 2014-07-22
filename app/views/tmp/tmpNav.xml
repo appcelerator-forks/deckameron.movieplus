@@ -12,8 +12,8 @@
 				
 				<TableViewRow id="movieDetailHeaderRow">
 					
-					<View id="movieDetailHeader">
-						<ImageView id="movieDetailCover"></ImageView>
+					<View id="movieDetailOverview">
+						<Label id="movieDetailOverviewTitle" text="Story"></Label>
 					</View>
 					
 				</TableViewRow>

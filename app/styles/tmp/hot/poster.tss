@@ -1,7 +1,12 @@
 
 "#movieDetailPosterWrapper": {
 	width: 120,
-	height: 174,
+	height: 174
+}
+
+"#movieDetailPoster": {
+	width: 100,
+	height: 150,
 	shadow: {
 		shadowOpacity: 0.35,
 		shadowRadius: 5,
@@ -10,10 +15,5 @@
 			y: 0
 		}
 	}
-}
-
-"#movieDetailPoster": {
-	width: 100,
-	height: 150
 }
 

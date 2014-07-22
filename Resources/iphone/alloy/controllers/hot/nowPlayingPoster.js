@@ -1,17 +1,27 @@
+function __processArg(obj, key) {
+    var arg = null;
+    if (obj) {
+        arg = obj[key] || null;
+        delete obj[key];
+    }
+    return arg;
+}
+
 function Controller() {
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "hot/nowPlayingPoster";
-    arguments[0] ? arguments[0]["__parentSymbol"] : null;
-    arguments[0] ? arguments[0]["$model"] : null;
-    arguments[0] ? arguments[0]["__itemTemplate"] : null;
+    if (arguments[0]) {
+        __processArg(arguments[0], "__parentSymbol");
+        __processArg(arguments[0], "$model");
+        __processArg(arguments[0], "__itemTemplate");
+    }
     var $ = this;
     var exports = {};
     $.__views.posterBlurBg = require("bencoding.blur").createGPUBlurImageView({
         height: "150%",
         width: "150%",
         top: 10,
-        id: "posterBlurBg",
-        ns: "require('bencoding.blur')"
+        id: "posterBlurBg"
     });
     $.__views.posterBlurBg && $.addTopLevelView($.__views.posterBlurBg);
     $.__views.posterImage = Ti.UI.createView({

@@ -54,6 +54,7 @@
         <module platform="iphone">bencoding.blur</module>
         <module platform="iphone">com.animecyc.animator</module>
         <module platform="iphone" version="1.0.0.0">cn.ld.circlemenu</module>
+        <module platform="iphone">com.logicdesign.tiparallaxtableviewheader</module>
     </modules>
     <deployment-targets>
         <target device="android">false</target>

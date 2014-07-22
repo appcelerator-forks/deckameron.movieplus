@@ -135,12 +135,12 @@ self.movieDetailPoster.addEventListener('touchend', function( e ) {
 	var area = -1;
 	
     var copyImg = Ti.UI.createView({
-    	backgroundImage: e.source.image,
     	width: previewFrame.start.width,
     	height: previewFrame.start.height,
     	left: previewFrame.start.x,
     	top: previewFrame.start.y,
-    	zIndex: 30
+    	zIndex: 30,
+    	backgroundImage: e.source.image
     });
     
     preview.setCurrentPage( self._id );
@@ -152,7 +152,7 @@ self.movieDetailPoster.addEventListener('touchend', function( e ) {
         easing: Animator.EXP_OUT,
         backgroundColor: "#4A4A4A"
     });
-	
+    
 	Animator.animate(copyImg, {
         duration: 400,
         easing: Animator.EXP_OUT,
@@ -176,7 +176,8 @@ self.movieDetailPoster.addEventListener('touchend', function( e ) {
     else if ( previewFrame.start.x > 60 && previewFrame.start.x < 200 ) area = 1;
     else if ( previewFrame.start.x > 200 ) area = 2;
     Ti.App.fireEvent('hot:movie:open:poster:preview', {
-    	area: area
+    	area: area,
+    	top: previewFrame.start.y
     });
 
 });

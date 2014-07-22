@@ -21,8 +21,8 @@ var currentPoster = {
 var posterBackFrame = {
 	width: 100,
 	height: 150,
-	left: 15,
-	top: 285
+	left: 0,
+	top: 0
 };
 
 var movieDetailBtnClose = Ti.UI.createButton({
@@ -40,79 +40,42 @@ var movieDetailBtnClosePosterPreview = Ti.UI.createButton({
 $.movieDetailWin.setLeftNavButton( movieDetailBtnClose );
 
 $.tmpNav.height = Ti.Platform.displayCaps.platformHeight - 69;
+// $.posterPreviewCover.height = $.tmpNav.height;
 $.posterPreviewCover.hide();
 
-function createMovieDetailOverview() {
+function createMovieDetailCover( image ) {
 	
-	 return Ti.UI.createView({
-		width: "100%",
-		height: "auto",
-		backgroundGradient: {
-        	type: 'linear',
-        	startPoint: { 
-        		x: 0, 
-        		y: 0 
-        	},
-        	endPoint: { 
-        		x: 0, 
-        		y: "100%" 
-        	},
-        	colors: [{ 
-        		color: 'transparent', 
-        		offset: 0.0
-        	}, {
-        		color: '#4A4A4A', 
-        		offset: 0.67
-        	}, { 
-        		color: '#4A4A4A', 
-        		offset: 1.0 
-        	}]
-    	},
-    	zIndex: 999,
-		bottom: 0
-	});
-
-}
-
-
-function posterPreviewScrollingCallback( e ) {
-	
-	$.movieDetailWin.title = ( e.currentPage + 1 ) + ' / ' + e.source.views.length;
-
-	calcPostersScrollViewPosBasedOnPreviewerCurrentPage( e.source );;
-	
-}
-
-
-function createMovieDetailOverviewTitle() {
-	
-	return Ti.UI.createLabel({
-		text: "Story",
-		color: '#F5A623',
-		width: 288,
-		height: "auto",
-		top: 80,
-		font: {
-			fontSize: 14,
-			fontWeight: "bold"
-		}
+	var cover = Ti.UI.createImageView({
+		image: image
 	});
 	
+	var coverImg = cover.toImage();
+	
+	var h = parseInt( Ti.Platform.displayCaps.platformWidth ) / parseInt( coverImg.width ) * parseInt( coverImg.height );
+	
+	return Ti.UI.createImageView({
+		width: Ti.Platform.displayCaps.platformWidth,
+		height: h,
+		image: image
+	});
+
 }
 
 function createMovieDetailOverviewContent( content ) {
 	
-	return Ti.UI.createLabel({
+	var content = Ti.UI.createLabel({
 		text: content,
 		width: 288,
 		height: "auto",
 		verticalAlign : Ti.UI.TEXT_VERTICAL_ALIGNMENT_TOP,
-		top: 100,
+		top: 20,
 		color: "#CFCFCF",
 		font: {
 			fontSize: 12
 		}
 	});
+	
+	return content;
 	
 }
 
@@ -133,28 +96,42 @@ function createMovieDetailOverviewContentShowMoreButton() {
 	
 }
 
-function expandMovieDetailOverviewContent( movieDetailOverviewHeight ) {
+function expandMovieDetailOverviewContent() {
 	
-	var movieDetailOverview = $.movieDetailHeader.children[1];
-	var movieDetailOverviewContent = movieDetailOverview.children[1];
-	var movieDetailOverviewContentShowMoreButton = movieDetailOverview.children[2];
+	var movieDetailOverviewContent = $.movieDetailOverview.children[1];
+	var movieDetailOverviewContentShowMoreButton = $.movieDetailOverview.children[2];
 	
 	var buttonHeight = parseInt( movieDetailOverviewContentShowMoreButton.height );
 	var height = parseInt( movieDetailOverviewContent.height );
-	var actualHeight = movieDetailOverviewContent._actualHeight + 5 /* some breathing space */;
+	var origHeight = movieDetailOverviewContent.origHeight;
 	
-	if ( actualHeight && actualHeight > height ) {
-		var diff = actualHeight - height - buttonHeight - 8;
+	if ( origHeight && origHeight > height ) {
+		var diff = origHeight - height - buttonHeight - 10;
 		if ( diff > 0 ) {
-			movieDetailOverviewContent.height = actualHeight; 
-			movieDetailOverview.height += diff;
-			$.movieDetailHeader.height += diff;
+				
+			Fader.fadeOut( movieDetailOverviewContent, 200, function(){
+				movieDetailOverviewContent.height = origHeight; 
+				$.movieDetailOverview.height += diff;
+				
+				setTimeout(function() {
+					Fader.fadeIn( movieDetailOverviewContent, 100 );
+				}, 300);
+			});
 
 			movieDetailOverviewContentShowMoreButton.hide();
 		}
 	}
 	
 }
+
+function posterPreviewScrollingCallback( e ) {
+	
+	$.movieDetailWin.title = ( e.currentPage + 1 ) + ' / ' + e.source.views.length;
+
+	calcPostersScrollViewPosBasedOnPreviewerCurrentPage( e.source );;
+	
+}
+
 
 function renderMovieDetailTrailers( trailersUrl ) {
 	
@@ -243,70 +220,59 @@ function renderMovieDetailPosters( postersUrl ) {
 
 function renderMovieDetail( model ) {
 
-	var movieDetailOverview = createMovieDetailOverview();
-	var movieDetailOverviewTitle = createMovieDetailOverviewTitle();
+	var movieDetailCover = createMovieDetailCover( model.getBackdropPath() );
 	var movieDetailOverviewContent = createMovieDetailOverviewContent( model.get('overview') );
 	var movieDetailOverviewContentShowMoreButton = null;
 	
-	movieDetailOverview.add( movieDetailOverviewTitle );
-	movieDetailOverview.add( movieDetailOverviewContent );
-	
 	$.movieDetailWin.setTitle( model.get('title') );
+	$.movieDetailTable.addParallaxWithView( movieDetailCover, parseInt( movieDetailCover.height ) - 40, true, "#4A4A4A");
+	$.movieDetailOverviewTitle.hide();
 	
-	// render $.movieDetailHeader
-	$.movieDetailCover.setImage( model.getBackdropPath() );
-	$.movieDetailHeader.add( movieDetailOverview );
-	
+	// render $.movieDetailOverviewContent
+	$.movieDetailOverview.add( movieDetailOverviewContent );
+
 	// render $.movieDetailRating
 	$.movieDetailRatingNumber.setText( parseFloat( model.get('vote_average') ).toFixed( 1 ) );
-	
-	
+
 	/*[IMPORTANT]
 	 * navigation window MUST be opened after all views being added.
 	 */
 	$.tmpNav.open();
 	
-	var movieDetailCoverHeight = parseInt( $.movieDetailCover.height );
-	var movieDetailOverviewContentHeight = parseInt( movieDetailOverviewContent.toImage().height );
-	var movieDetailOverviewContentExpectedHeight = 0;
-	var movieDetailOverviewHeight = 0;
-
 	if ( movieDetailOverviewContent.getText() 
-		&& "" !== movieDetailOverviewContent.getText()
-		&& movieDetailOverviewContentHeight ) {
+		&& "" !== movieDetailOverviewContent.getText() ) {
 			
-		movieDetailOverviewContent._actualHeight = movieDetailOverviewContentHeight;
+		var movieDetailOverviewContentExpectedHeight = 0;
+		var movieDetailOverviewHeight = 0;
+		movieDetailOverviewContent.origHeight = movieDetailOverviewContent.toImage().height;
+			
+		$.movieDetailOverviewTitle.show();
 		
-		if ( movieDetailOverviewContentHeight > 63 ) {
+		if ( movieDetailOverviewContent.origHeight > 63 ) {
 			
 			movieDetailOverviewContentExpectedHeight = 63;
-			movieDetailOverviewHeight = movieDetailOverviewContentExpectedHeight + 130;
+			movieDetailOverviewHeight = movieDetailOverviewContentExpectedHeight + 54;
 			
 			movieDetailOverviewContentShowMoreButton = createMovieDetailOverviewContentShowMoreButton();
-			movieDetailOverview.add( movieDetailOverviewContentShowMoreButton );
+			$.movieDetailOverview.add( movieDetailOverviewContentShowMoreButton );
 			
 			movieDetailOverviewContentShowMoreButton.addEventListener('click', expandMovieDetailOverviewContent);
 			
 		} else {
 			
-			movieDetailOverviewContentExpectedHeight = movieDetailOverviewContentHeight;
-			movieDetailOverviewHeight = movieDetailOverviewContentExpectedHeight + 114;
+			movieDetailOverviewContentExpectedHeight = movieDetailOverviewContent.origHeight;
+			movieDetailOverviewHeight = movieDetailOverviewContentExpectedHeight + 30;
 			
 		}
 
 		movieDetailOverviewContent.setHeight( movieDetailOverviewContentExpectedHeight );
-		movieDetailOverview.setHeight( movieDetailOverviewHeight );
-		$.movieDetailHeader.setHeight( movieDetailCoverHeight + movieDetailOverviewHeight * 0.2 );
+		$.movieDetailOverview.setHeight( movieDetailOverviewHeight );
 
 	} else {
 		
-		movieDetailOverview.remove( movieDetailOverviewTitle );
-		movieDetailOverview.remove( movieDetailOverviewContent );
-		$.movieDetailHeader.remove( movieDetailOverview );
+		$.movieDetailOverviewTitle.hide();
 		
-		movieDetailOverviewTitle = null;
 		movieDetailOverviewContent = null;
-		movieDetailOverview = null;
 
 	}
 	
@@ -451,25 +417,25 @@ function calcPostersScrollViewPosBasedOnPreviewerCurrentPage( posterPreview ) {
 		
 	} else {
 
-			if ( posterPreview.currentPage === posterPreview.views.length - 1 ) {
+		if ( posterPreview.currentPage === posterPreview.views.length - 1 ) {
 				
-				$.movieDetailPostersScrollView.scrollTo( ( posterPreview.currentPage - 2 ) * 120 + 40, 0 );
-				// set backpoint
-				posterBackFrame.left = 215;
+			$.movieDetailPostersScrollView.scrollTo( ( posterPreview.currentPage - 2 ) * 120 + 40, 0 );
+			// set backpoint
+			posterBackFrame.left = 215;
 
-			} else if ( posterPreview.currentPage === posterPreview.views.length - 2 ) {
+		} else if ( posterPreview.currentPage === posterPreview.views.length - 2 ) {
 				
-				$.movieDetailPostersScrollView.scrollTo( ( posterPreview.currentPage - 1 ) * 120 + 20, 0 );
-				// set backpoint
-				posterBackFrame.left = 115;
+			$.movieDetailPostersScrollView.scrollTo( ( posterPreview.currentPage - 1 ) * 120 + 20, 0 );
+			// set backpoint
+			posterBackFrame.left = 115;
 
-			} else {
+		} else {
 				
-				$.movieDetailPostersScrollView.scrollTo( posterPreview.currentPage * 120 , 0 );
-				// set backpoint
-				posterBackFrame.left = 15;
+			$.movieDetailPostersScrollView.scrollTo( posterPreview.currentPage * 120 , 0 );
+			// set backpoint
+			posterBackFrame.left = 15;
 
-			}
+		}
 		
 	}
 
@@ -478,27 +444,33 @@ function calcPostersScrollViewPosBasedOnPreviewerCurrentPage( posterPreview ) {
 
 function destoryMovieDetail() {
 	
-	var movieDetailOverview = $.movieDetailHeader.children[1];
-
 	Ti.App.fireEvent('hot:movie:close');
 
 	id = null;
+
 	currentPoster = {
 		page: -1,
 		area: -1
 	};
 
-	if ( movieDetailOverview ) {
-		var movieDetailOverviewContentShowMoreButton = movieDetailOverview.children[2];
-		if ( movieDetailOverviewContentShowMoreButton ) {
-			movieDetailOverviewContentShowMoreButton.removeEventListener('click', expandMovieDetailOverviewContent);
-		}
-		movieDetailOverview.removeAllChildren();
-		$.movieDetailHeader.remove( movieDetailOverview );
-	
-		movieDetailOverviewContentShowMoreButton = null;
-		movieDetailOverview = null;
+ 	posterBackFrame = {
+		width: 100,
+		height: 150,
+		left: 0,
+		top: 0
+	};
+
+	var movieDetailOverviewContent = $.movieDetailOverview.children[1];
+	var movieDetailOverviewContentShowMoreButton = $.movieDetailOverview.children[2];
+	if ( movieDetailOverviewContent ) {
+		$.movieDetailOverview.remove( movieDetailOverviewContent );
 	}
+	if ( movieDetailOverviewContentShowMoreButton ) {
+		movieDetailOverviewContentShowMoreButton.removeEventListener('click', expandMovieDetailOverviewContent);
+		$.movieDetailOverview.remove( movieDetailOverviewContentShowMoreButton );
+	}
+	movieDetailOverviewContent = null;
+	movieDetailOverviewContentShowMoreButton = null;
 	
 	$.movieDetailTrailersScrollView.removeAllChildren();
 	_.each(movieDetailTrailersController, function( controller ) {
@@ -531,7 +503,9 @@ function destoryMovieDetail() {
 	movieDetailCastsController = null;
 	movieDetailPostersController = null;
 	posterPreview = null;
+	
 }
+
 
 Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
 		
@@ -606,6 +580,7 @@ Ti.App.addEventListener('hot:movie:open:poster:preview', function( e ) {
 	var posterPreview = $.posterPreviewCover.children[0];
 	currentPoster.page = posterPreview.getCurrentPage();
 	currentPoster.area = e.area;
+	posterBackFrame.top = e.top;
 	
 	Fader.fadeOut( movieDetailBtnClose, 300, function() {
 		

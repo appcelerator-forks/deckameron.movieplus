@@ -1,3 +1,12 @@
+function __processArg(obj, key) {
+    var arg = null;
+    if (obj) {
+        arg = obj[key] || null;
+        delete obj[key];
+    }
+    return arg;
+}
+
 function Controller() {
     function addPosters(collection) {
         collection.length && collection.each(function(model) {
@@ -20,15 +29,16 @@ function Controller() {
         }, function(err) {
             alert(err);
         });
-        var circleMenu = require("cn.ld.circlemenu");
         collectionView = circleMenu.createView();
         $.postersWheel.add(collectionView);
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "hot/nowPlaying";
-    arguments[0] ? arguments[0]["__parentSymbol"] : null;
-    arguments[0] ? arguments[0]["$model"] : null;
-    arguments[0] ? arguments[0]["__itemTemplate"] : null;
+    if (arguments[0]) {
+        __processArg(arguments[0], "__parentSymbol");
+        __processArg(arguments[0], "$model");
+        __processArg(arguments[0], "__itemTemplate");
+    }
     var $ = this;
     var exports = {};
     $.__views.nowPlaying = Ti.UI.createView({
@@ -100,7 +110,7 @@ function Controller() {
         id: "content"
     });
     $.__views.nowPlaying.add($.__views.content);
-    $.__views.postersWheel = Ti.UI.createView({
+    $.__views.postersWheel = Ti.UI.createScrollView({
         width: Ti.Platform.displayCaps.platformWidth,
         height: "30%",
         backgroundColor: "transparent",
@@ -116,6 +126,7 @@ function Controller() {
     arguments[0] || {};
     var collectionView;
     require("bencoding.blur");
+    var circleMenu = require("cn.ld.circlemenu");
     var nowPlayingCollection = Alloy.Collections.instance("nowPlaying");
     var page = 1;
     exports.initialize = initialize;

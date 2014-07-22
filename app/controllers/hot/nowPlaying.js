@@ -1,6 +1,7 @@
 var args = arguments[0] || {};
 var collectionView;
 var Blur = require('bencoding.blur');
+var circleMenu = require("cn.ld.circlemenu");
 var nowPlayingCollection = Alloy.Collections.instance('nowPlaying');
 var page = 1;
 
@@ -37,7 +38,6 @@ function initialize() {
 		alert( err );
 
 	});
-	var circleMenu = require("cn.ld.circlemenu");
 	
 	collectionView = circleMenu.createView();
 	$.postersWheel.add(collectionView);
