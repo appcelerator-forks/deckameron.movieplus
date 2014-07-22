@@ -43,3 +43,4 @@ Ti.UI.createImageView();
 Alloy.Collections.instance('nowPlaying');
 Alloy.Collections.instance('upComing');
 Alloy.Collections.instance('movieDetail');
+Alloy.Collections.instance('castDetail');

@@ -1,0 +1,60 @@
+<Alloy>
+
+	<Window id="movieDetailWin">
+			
+		<LeftNavButton></LeftNavButton>
+
+		<View id="posterPreviewCover"></View>
+			
+		<TableView id="movieDetailTable">
+				
+			<TableViewRow id="movieDetailHeaderRow">
+					
+				<View id="movieDetailOverview">
+					<Label id="movieDetailOverviewTitle" text="Story"></Label>
+				</View>
+					
+			</TableViewRow>
+				
+			<TableViewRow id="movieDetailRatingRow">
+					
+				<View id="movieDetailRating">
+					<Label id="movieDetailRatingTitle" text="Rating"></Label>
+					<ImageView id="movieDetailRatingIMDB" image="imdb.png"></ImageView>
+					<Label id="movieDetailRatingNumber"></Label>
+				</View>
+					
+			</TableViewRow>
+
+			<TableViewRow id="movieDetailTrailersRow">
+					
+				<View id="movieDetailTrailers">
+					<Label id="movieDetailTrailersTitle" text="Trailers"></Label>
+					<ScrollView id="movieDetailTrailersScrollView"></ScrollView>
+				</View>
+					
+			</TableViewRow>
+
+			<TableViewRow id="movieDetailCastsRow">
+					
+				<View id="movieDetailCasts">
+					<Label id="movieDetailCastsTitle" text="Cast"></Label>
+					<ScrollView id="movieDetailCastsScrollView"></ScrollView>
+				</View>
+					
+			</TableViewRow>
+				
+			<TableViewRow id="movieDetailPostersRow">
+					
+				<View id="movieDetailPosters">
+					<Label id="movieDetailPostersTitle" text="Posters"></Label>
+					<ScrollView id="movieDetailPostersScrollView"></ScrollView>
+				</View>
+					
+			</TableViewRow>
+				
+		</TableView>
+			
+	</Window>
+
+</Alloy>

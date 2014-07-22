@@ -76,6 +76,13 @@ function Controller() {
     });
     self.movieDetailCastAvatar.image = croppedImage;
     self.movieDetailCastName.text = args.name;
+    setTimeout(function() {
+        self.movieDetailCastAvatarWrapper.addEventListener("click", function() {
+            Ti.App.fireEvent("cast:detail:open", {
+                id: args.id
+            });
+        });
+    }, 500);
     _.extend($, exports);
 }
 

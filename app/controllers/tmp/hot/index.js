@@ -39,7 +39,6 @@ var movieDetailBtnClosePosterPreview = Ti.UI.createButton({
 
 $.movieDetailWin.setLeftNavButton( movieDetailBtnClose );
 
-$.tmpNav.height = Ti.Platform.displayCaps.platformHeight - 69;
 $.posterPreviewCover.hide();
 
 function createMovieDetailCover( image ) {
@@ -164,6 +163,7 @@ function renderMovieDetailCasts( model ) {
 		_.each(casts, function( cast, i ) {
 						
 			var _movieDetailCastController = Alloy.createController('tmp/hot/cast', {
+				id: cast.id,
 				avatar: model.getCastAvatars( i ),
 				name: cast.name
 			});
@@ -268,7 +268,6 @@ function renderMovieDetail( model ) {
 
 	}
 	
-	// Ti.App.fireEvent('hot:movie:open'); // open the tmpNavWin
 	setTimeout(function() {
 		Fader.fadeIn( $.movieDetailTable, 400 );
 	}, 300);
@@ -514,8 +513,7 @@ Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
 	destoryMovieDetail();
 	
 	id = param.id;
-	$.tmpNav.open();
-	Ti.App.fireEvent('hot:movie:open'); // open the tmpNavWin
+	Ti.App.fireEvent('hot:movie:open'); 
 
 	if ( ! movieDetailCollection.get( id ) ) {
 		
@@ -545,7 +543,7 @@ Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
 
 			self.getCasts(
 			function() { // 1.2. get cast of the movie
-				
+
 				renderMovieDetailCasts( self );
 				
 			}, function( err ) {
@@ -655,4 +653,3 @@ movieDetailBtnClose.addEventListener('touchend', function() {
 	Ti.App.fireEvent('hot:movie:close');
 	destoryMovieDetail();
 });
-

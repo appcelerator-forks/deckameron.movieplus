@@ -28,4 +28,6 @@ Alloy.Collections.instance("upComing");
 
 Alloy.Collections.instance("movieDetail");
 
+Alloy.Collections.instance("castDetail");
+
 Alloy.createController("index");
