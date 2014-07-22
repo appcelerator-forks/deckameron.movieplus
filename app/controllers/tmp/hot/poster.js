@@ -119,8 +119,8 @@ function convertPosterThumbnailToPreview( view, preview ) {
 self._id = parseInt( args.id );
 self.movieDetailPoster.image = args.url;
 var frame = calcPosterPreviewPosAndSize( args.url );
-var poster = Ti.UI.createView({
-    	backgroundImage: args.url,
+var poster = Ti.UI.createImageView({
+    	image: args.url,
     	width: frame.width,
     	height: frame.height,
     	left: frame.x,

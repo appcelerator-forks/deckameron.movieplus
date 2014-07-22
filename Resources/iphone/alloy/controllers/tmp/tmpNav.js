@@ -55,17 +55,15 @@ function Controller() {
         var height = parseInt(movieDetailOverviewContent.height);
         var origHeight = movieDetailOverviewContent.origHeight;
         if (origHeight && origHeight > height) {
-            var diff = origHeight - height - buttonHeight - 10;
-            if (diff > 0) {
-                Fader.fadeOut(movieDetailOverviewContent, 200, function() {
-                    movieDetailOverviewContent.height = origHeight;
-                    $.movieDetailOverview.height += diff;
-                    setTimeout(function() {
-                        Fader.fadeIn(movieDetailOverviewContent, 100);
-                    }, 300);
-                });
-                movieDetailOverviewContentShowMoreButton.hide();
-            }
+            var diff = origHeight - height - buttonHeight;
+            Fader.fadeOut(movieDetailOverviewContent, 200, function() {
+                movieDetailOverviewContent.height = origHeight;
+                $.movieDetailOverview.height += diff;
+                setTimeout(function() {
+                    Fader.fadeIn(movieDetailOverviewContent, 100);
+                }, 300);
+            });
+            movieDetailOverviewContentShowMoreButton.hide();
         }
     }
     function posterPreviewScrollingCallback(e) {
@@ -136,7 +134,6 @@ function Controller() {
         $.movieDetailOverviewTitle.hide();
         $.movieDetailOverview.add(movieDetailOverviewContent);
         $.movieDetailRatingNumber.setText(parseFloat(model.get("vote_average")).toFixed(1));
-        $.tmpNav.open();
         if (movieDetailOverviewContent.getText() && "" !== movieDetailOverviewContent.getText()) {
             var movieDetailOverviewContentExpectedHeight = 0;
             var movieDetailOverviewHeight = 0;
@@ -150,7 +147,7 @@ function Controller() {
                 movieDetailOverviewContentShowMoreButton.addEventListener("click", expandMovieDetailOverviewContent);
             } else {
                 movieDetailOverviewContentExpectedHeight = movieDetailOverviewContent.origHeight;
-                movieDetailOverviewHeight = movieDetailOverviewContentExpectedHeight + 30;
+                movieDetailOverviewHeight = movieDetailOverviewContentExpectedHeight + 37;
             }
             movieDetailOverviewContent.setHeight(movieDetailOverviewContentExpectedHeight);
             $.movieDetailOverview.setHeight(movieDetailOverviewHeight);
@@ -158,7 +155,9 @@ function Controller() {
             $.movieDetailOverviewTitle.hide();
             movieDetailOverviewContent = null;
         }
-        Ti.App.fireEvent("hot:movie:open");
+        setTimeout(function() {
+            Fader.fadeIn($.movieDetailTable, 400);
+        }, 300);
     }
     function calcPostersScrollViewPosBasedOnPreviewerCurrentPage(posterPreview) {
         if (0 === currentPoster.area) if (currentPoster.page === posterPreview.currentPage) {
@@ -227,7 +226,7 @@ function Controller() {
         }
     }
     function destoryMovieDetail() {
-        Ti.App.fireEvent("hot:movie:close");
+        Fader.fadeOut($.movieDetailTable);
         id = null;
         currentPoster = {
             page: -1,
@@ -239,6 +238,7 @@ function Controller() {
             left: 0,
             top: 0
         };
+        $.movieDetailWin.setTitle("");
         var movieDetailOverviewContent = $.movieDetailOverview.children[1];
         var movieDetailOverviewContentShowMoreButton = $.movieDetailOverview.children[2];
         movieDetailOverviewContent && $.movieDetailOverview.remove(movieDetailOverviewContent);
@@ -261,10 +261,12 @@ function Controller() {
             controller.destroy();
         });
         var posterPreview = $.posterPreviewCover.children[0];
-        _.each(posterPreview.views, function(view) {
-            posterPreview.removeView(view);
-        });
-        posterPreview.removeEventListener("scroll", posterPreviewScrollingCallback);
+        if (posterPreview) {
+            posterPreview.views && _.each(posterPreview.views, function(view) {
+                posterPreview.removeView(view);
+            });
+            posterPreview.removeEventListener("scroll", posterPreviewScrollingCallback);
+        }
         $.posterPreviewCover.removeAllChildren();
         $.posterPreviewCover.backgroundColor = "transparent";
         $.posterPreviewCover.hide();
@@ -321,7 +323,7 @@ function Controller() {
     __alloyId18.push($.__views.movieDetailHeaderRow);
     $.__views.movieDetailOverview = Ti.UI.createView({
         width: "100%",
-        height: "100%",
+        height: "auto",
         top: -35,
         id: "movieDetailOverview"
     });
@@ -539,7 +541,10 @@ function Controller() {
     $.tmpNav.height = Ti.Platform.displayCaps.platformHeight - 69;
     $.posterPreviewCover.hide();
     Ti.App.addEventListener("hot:movie:prepare:open", function(param) {
+        destoryMovieDetail();
         id = param.id;
+        $.tmpNav.open();
+        Ti.App.fireEvent("hot:movie:open");
         if (movieDetailCollection.get(id)) renderMovieDetail(movieDetailCollection.get(id)); else {
             var movieDetailModel = Alloy.createModel("movieDetail", {
                 id: id
@@ -591,7 +596,15 @@ function Controller() {
             });
         });
         $.movieDetailWin.title = movieDetailCollection.get(id).get("title");
-        var tmp = Ti.UI.createView(_.clone(posterPreview.views[parseInt(posterPreview.getCurrentPage())]));
+        var poster = posterPreview.views[parseInt(posterPreview.getCurrentPage())];
+        var tmp = Ti.UI.createView({
+            width: poster.width,
+            height: poster.height,
+            left: poster.left,
+            top: poster.top,
+            zIndex: 30,
+            backgroundImage: poster.image
+        });
         $.posterPreviewCover.add(tmp);
         posterPreview.hide();
         Animator.animate($.posterPreviewCover, {
@@ -613,6 +626,7 @@ function Controller() {
         });
     });
     movieDetailBtnClose.addEventListener("touchend", function() {
+        Ti.App.fireEvent("hot:movie:close");
         destoryMovieDetail();
     });
     _.extend($, exports);

@@ -40,7 +40,6 @@ var movieDetailBtnClosePosterPreview = Ti.UI.createButton({
 $.movieDetailWin.setLeftNavButton( movieDetailBtnClose );
 
 $.tmpNav.height = Ti.Platform.displayCaps.platformHeight - 69;
-// $.posterPreviewCover.height = $.tmpNav.height;
 $.posterPreviewCover.hide();
 
 function createMovieDetailCover( image ) {
@@ -106,20 +105,18 @@ function expandMovieDetailOverviewContent() {
 	var origHeight = movieDetailOverviewContent.origHeight;
 	
 	if ( origHeight && origHeight > height ) {
-		var diff = origHeight - height - buttonHeight - 10;
-		if ( diff > 0 ) {
+		var diff = origHeight - height - buttonHeight;
 				
-			Fader.fadeOut( movieDetailOverviewContent, 200, function(){
-				movieDetailOverviewContent.height = origHeight; 
-				$.movieDetailOverview.height += diff;
+		Fader.fadeOut( movieDetailOverviewContent, 200, function() {
+			movieDetailOverviewContent.height = origHeight; 
+			$.movieDetailOverview.height += diff;
 				
-				setTimeout(function() {
-					Fader.fadeIn( movieDetailOverviewContent, 100 );
-				}, 300);
-			});
+			setTimeout(function() {
+				Fader.fadeIn( movieDetailOverviewContent, 100 );
+			}, 300);
+		});
 
-			movieDetailOverviewContentShowMoreButton.hide();
-		}
+		movieDetailOverviewContentShowMoreButton.hide();
 	}
 	
 }
@@ -233,11 +230,6 @@ function renderMovieDetail( model ) {
 
 	// render $.movieDetailRating
 	$.movieDetailRatingNumber.setText( parseFloat( model.get('vote_average') ).toFixed( 1 ) );
-
-	/*[IMPORTANT]
-	 * navigation window MUST be opened after all views being added.
-	 */
-	$.tmpNav.open();
 	
 	if ( movieDetailOverviewContent.getText() 
 		&& "" !== movieDetailOverviewContent.getText() ) {
@@ -261,7 +253,7 @@ function renderMovieDetail( model ) {
 		} else {
 			
 			movieDetailOverviewContentExpectedHeight = movieDetailOverviewContent.origHeight;
-			movieDetailOverviewHeight = movieDetailOverviewContentExpectedHeight + 30;
+			movieDetailOverviewHeight = movieDetailOverviewContentExpectedHeight + 37;
 			
 		}
 
@@ -276,7 +268,10 @@ function renderMovieDetail( model ) {
 
 	}
 	
-	Ti.App.fireEvent('hot:movie:open'); // open the tmpNavWin
+	// Ti.App.fireEvent('hot:movie:open'); // open the tmpNavWin
+	setTimeout(function() {
+		Fader.fadeIn( $.movieDetailTable, 400 );
+	}, 300);
 
 }
 
@@ -444,8 +439,8 @@ function calcPostersScrollViewPosBasedOnPreviewerCurrentPage( posterPreview ) {
 
 function destoryMovieDetail() {
 	
-	Ti.App.fireEvent('hot:movie:close');
-
+	Fader.fadeOut( $.movieDetailTable );
+	
 	id = null;
 
 	currentPoster = {
@@ -459,6 +454,8 @@ function destoryMovieDetail() {
 		left: 0,
 		top: 0
 	};
+	
+	$.movieDetailWin.setTitle( "" );
 
 	var movieDetailOverviewContent = $.movieDetailOverview.children[1];
 	var movieDetailOverviewContentShowMoreButton = $.movieDetailOverview.children[2];
@@ -488,10 +485,14 @@ function destoryMovieDetail() {
 	});
 	
 	var posterPreview = $.posterPreviewCover.children[0];
-	_.each(posterPreview.views, function( view ) {
-		posterPreview.removeView( view );
-	});
-	posterPreview.removeEventListener('scroll', posterPreviewScrollingCallback);
+	if ( posterPreview ) {
+		if ( posterPreview.views ) {
+			_.each(posterPreview.views, function( view ) {
+				posterPreview.removeView( view );
+			});
+		}
+		posterPreview.removeEventListener('scroll', posterPreviewScrollingCallback);
+	}
 	
 	$.posterPreviewCover.removeAllChildren();
 	$.posterPreviewCover.backgroundColor = "transparent";
@@ -503,13 +504,18 @@ function destoryMovieDetail() {
 	movieDetailCastsController = null;
 	movieDetailPostersController = null;
 	posterPreview = null;
+
 	
 }
 
 
 Ti.App.addEventListener('hot:movie:prepare:open', function( param ) {
 		
+	destoryMovieDetail();
+	
 	id = param.id;
+	$.tmpNav.open();
+	Ti.App.fireEvent('hot:movie:open'); // open the tmpNavWin
 
 	if ( ! movieDetailCollection.get( id ) ) {
 		
@@ -612,7 +618,15 @@ movieDetailBtnClosePosterPreview.addEventListener('touchend', function() {
 	
 	$.movieDetailWin.title = movieDetailCollection.get( id ).get('title');
 
-	var tmp = Ti.UI.createView( _.clone( posterPreview.views[ parseInt( posterPreview.getCurrentPage() ) ] ) );
+	var poster = posterPreview.views[ parseInt( posterPreview.getCurrentPage() ) ];
+	var tmp = Ti.UI.createView({
+		width: poster.width,
+    	height: poster.height,
+    	left: poster.left,
+    	top: poster.top,
+    	zIndex: 30,
+    	backgroundImage: poster.image
+	});
 	$.posterPreviewCover.add( tmp );
 	posterPreview.hide();
 
@@ -638,6 +652,7 @@ movieDetailBtnClosePosterPreview.addEventListener('touchend', function() {
 });
 
 movieDetailBtnClose.addEventListener('touchend', function() {
+	Ti.App.fireEvent('hot:movie:close');
 	destoryMovieDetail();
 });
 

@@ -30,7 +30,6 @@
 "#movieDetailTable": {
 	backgroundColor: "transparent",
 	separatorColor: "#979797"
-	// separatorStyle: Ti.UI.iPhone.TableViewSeparatorStyle.NONE
 }
 
 "TableViewRow": {
@@ -44,7 +43,8 @@
 
 "#movieDetailOverview": {
 	width: "100%",
-	height: "100%",
+	// height: "100%",
+	height: "auto",
 	top: -35
 }
 
