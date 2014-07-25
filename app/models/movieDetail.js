@@ -123,6 +123,7 @@ exports.definition = {
 					data = JSON.parse( data );
 
 					if ( data.id === self.id ) {
+
 						if ( ( !self.has('backdrop_path')
 							 || "" === self.get('backdrop_path') )
 						     && data.backdrops ) {

@@ -4,9 +4,7 @@ var self = this;
 // Here's our base (full-size) image. 
 // It's never displayed as-is.
 var baseImage = Titanium.UI.createImageView({
-    image: args.avatar,
-    width: 500,
-    height: "auto"
+    image: args.avatar
 });
  
 var croppedImage = baseImage.toImage().imageAsCropped({width:500, height:500, x:0, y:0}); 
@@ -18,7 +16,8 @@ setTimeout(function() {
 	
 	self.movieDetailCastAvatarWrapper.addEventListener('click', function() {
 		Ti.App.fireEvent('cast:detail:open', {
-			id: args.id
+			id: args.id,
+			name: args.name
 		});
 	});
 

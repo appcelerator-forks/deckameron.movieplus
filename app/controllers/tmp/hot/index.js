@@ -61,7 +61,7 @@ function createMovieDetailCover( image ) {
 
 function createMovieDetailOverviewContent( content ) {
 	
-	var content = Ti.UI.createLabel({
+	return Ti.UI.createLabel({
 		text: content,
 		width: 288,
 		height: "auto",
@@ -72,8 +72,6 @@ function createMovieDetailOverviewContent( content ) {
 			fontSize: 12
 		}
 	});
-	
-	return content;
 	
 }
 

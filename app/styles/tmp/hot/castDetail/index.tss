@@ -16,8 +16,113 @@
     navTintColor: "#fffffe"
 }
 
-// "#castDetailBackBtn": {
-	// backgroundImage: "/back.png",
-	// width: 10,
-	// height: 19
-// }
+"#castDetailTable": {
+    backgroundColor: '#4A4A4A',
+    width: "100%",
+    height: "100%",
+    top: 0,
+	separatorColor: "#979797"
+}
+
+"TableViewRow": {
+	selectedBackgroundColor: 'transparent'
+}
+
+"#castDetailInfo": {
+	width: "100%",
+	height: 135,
+	top: -35
+}
+
+"#castDetailAvatarWrapper": {
+	width: 110,
+	height: 110,
+	borderRadius: 55,
+	shadow: {
+		shadowOpacity: 0.35,
+		shadowRadius: 5,
+		shadowOffset: {
+			x: 0,
+			y: 0
+		}
+	},
+	top: 0,
+	right: 20
+}
+
+"#castDetailAvatar": {
+	width: 110,
+	height: 110,
+	borderRadius: 55
+}
+
+"#castDetailBirthdayTitle": {
+	color: '#F5A623',
+	width: 124,
+	height: "auto",
+	font: {
+		fontSize: 12,
+		fontWeight: "bold"
+	},
+	left: 16,
+	top: 0
+}
+
+"#castDetailBirthday": {
+	color: "white",
+	width: 124,
+	height: "auto",
+	left: 16,
+	top: 16,
+	font: {
+		fontSize: 12
+	}
+}
+
+"#castDetailPlaceTitle": {
+	color: '#F5A623',
+	width: 124,
+	height: "auto",
+	font: {
+		fontSize: 12,
+		fontWeight: "bold"
+	},
+	left: 16,
+	top: 45
+}
+
+"#castDetailPlace": {
+	color: "white",
+	width: 124,
+	height: "auto",
+	left: 16,
+	top: 60,
+	font: {
+		fontSize: 12
+	}
+}
+
+"#castDetailBiography": {
+	width: 288,
+	top: 0
+}
+
+"#castDetailBiographyTitle": {
+	color: '#F5A623',
+	font: {
+		fontSize: 12,
+		fontWeight: "bold"
+	},
+	left: 0,
+	top: 22
+}
+
+"#castDetailActingTitle": {
+	color: '#F5A623',
+	font: {
+		fontSize: 12,
+		fontWeight: "bold"
+	},
+	left: 16,
+	top: 22
+}

@@ -1,6 +1,50 @@
 <Alloy>
 
-	<Window id="castDetailWin" title="cast details">
+	<Window id="castDetailWin">
+
+		<TableView id="castDetailTable">
+				
+			<TableViewRow id="castDetailInfoRow">
+					
+				<View id="castDetailInfo">
+
+					<Label id="castDetailBirthdayTitle" text="Birthday"></Label>
+					<Label id="castDetailBirthday"></Label>
+
+					<Label id="castDetailPlaceTitle" text="Place of Birth"></Label>
+					<Label id="castDetailPlace"></Label>
+
+					<View id="castDetailAvatarWrapper">
+						<ImageView id="castDetailAvatar" />
+					</View>
+					
+				</View>
+					
+			</TableViewRow>
+				
+			<TableViewRow id="castDetailBiographyRow">
+					
+				<View id="castDetailBiography">
+					
+					<Label id="castDetailBiographyTitle" text="Biography"></Label>
+					
+				</View>
+					
+			</TableViewRow>
+
+			<TableViewRow id="castDetailActingRow">
+					
+				<View id="castDetailActing">
+					
+					<Label id="castDetailActingTitle" text="Acting"></Label>
+
+					<Require type="widget" src="com.prodz.tiflexigrid" id="fg"/>
+
+				</View>
+					
+			</TableViewRow>
+
+		</TableView>
 
 	</Window>
 	

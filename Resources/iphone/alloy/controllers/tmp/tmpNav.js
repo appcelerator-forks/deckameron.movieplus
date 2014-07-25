@@ -36,15 +36,13 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     arguments[0] || {};
+    var castDetailController = Alloy.createController("tmp/hot/castDetail/index");
     $.tmpNav.height = Ti.Platform.displayCaps.platformHeight - 69;
     Ti.App.addEventListener("hot:movie:prepare:open", function() {
         $.tmpNav.open();
     });
-    Ti.App.addEventListener("cast:detail:open", function(e) {
-        var castDetail = Alloy.createController("tmp/hot/castDetail/index", {
-            id: e.id
-        });
-        $.tmpNav.openWindow(castDetail.getView(), {
+    Ti.App.addEventListener("cast:detail:open", function() {
+        $.tmpNav.openWindow(castDetailController.getView(), {
             animated: true
         });
     });

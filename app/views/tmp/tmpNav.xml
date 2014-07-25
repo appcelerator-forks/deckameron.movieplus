@@ -1,0 +1,9 @@
+<Alloy>
+	
+	<NavigationWindow id="tmpNav">
+		
+		<Require type="view" src="tmp/hot/index" id="movieDetailWin"/>
+		
+	</NavigationWindow>
+		
+</Alloy>

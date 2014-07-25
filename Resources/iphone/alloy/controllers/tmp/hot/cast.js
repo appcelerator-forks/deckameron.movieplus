@@ -64,9 +64,7 @@ function Controller() {
     var args = arguments[0] || {};
     var self = this;
     var baseImage = Titanium.UI.createImageView({
-        image: args.avatar,
-        width: 500,
-        height: "auto"
+        image: args.avatar
     });
     var croppedImage = baseImage.toImage().imageAsCropped({
         width: 500,
@@ -79,7 +77,8 @@ function Controller() {
     setTimeout(function() {
         self.movieDetailCastAvatarWrapper.addEventListener("click", function() {
             Ti.App.fireEvent("cast:detail:open", {
-                id: args.id
+                id: args.id,
+                name: args.name
             });
         });
     }, 500);

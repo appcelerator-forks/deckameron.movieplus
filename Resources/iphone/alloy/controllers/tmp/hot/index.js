@@ -21,7 +21,7 @@ function Controller() {
         });
     }
     function createMovieDetailOverviewContent(content) {
-        var content = Ti.UI.createLabel({
+        return Ti.UI.createLabel({
             text: content,
             width: 288,
             height: "auto",
@@ -32,7 +32,6 @@ function Controller() {
                 fontSize: 12
             }
         });
-        return content;
     }
     function createMovieDetailOverviewContentShowMoreButton() {
         return Ti.UI.createButton({
